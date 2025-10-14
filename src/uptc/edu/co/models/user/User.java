@@ -6,6 +6,7 @@ package uptc.edu.co.models.user;
 
 import java.util.List;
 import uptc.edu.co.models.settings.Settings;
+import uptc.edu.co.models.persistence.PersistenceManager;
 
 /**
  *
@@ -21,10 +22,17 @@ public class User {
     private Role rol;
 
     public List<User> viewAllUsers() {
-        return null;
+        if (this.rol != Role.ADMIN) {
+            throw new SecurityException("Solo administradores pueden ver los usuarios");
+        }
+        return new PersistenceManager().loadAllUsers();
     }
 
     public void banUser(int idUser) {
+        if (this.rol != Role.ADMIN) {
+            throw new SecurityException("Solo administradores pueden banear usuarios");
+        }
+        // lógica de baneo
     }
 
     public void deleteUser() {

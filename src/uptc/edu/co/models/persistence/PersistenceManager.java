@@ -42,10 +42,11 @@ public class PersistenceManager {
             // Actualizar o agregar usuario
             boolean found = false;
             for (int i = 0; i < users.size(); i++) {
-                if (getUserId(users.get(i)) == getUserId(user)) {
+                if (users.get(i).getId() == user.getId()) {
+                } else {
                     users.set(i, user);
                     found = true;
-                    break;
+                    i = users.size();
                 }
             }
 
@@ -61,15 +62,16 @@ public class PersistenceManager {
     }
 
     public User loadUser(String email) {
+        User auxUser = null;
         List<User> users = loadAllUsers();
         if (users != null) {
             for (User user : users) {
-                if (getUserEmail(user).equals(email)) {
-                    return user;
+                if (user.getEmail().equals(email)) {
+                    auxUser = user;
                 }
             }
         }
-        return null;
+        return auxUser;
     }
 
     public List<User> loadAllUsers() {
@@ -79,9 +81,9 @@ public class PersistenceManager {
                 return new ArrayList<>();
             }
 
-            TypeToken<List<NormalUser>> token = new TypeToken<List<NormalUser>>() {
+            TypeToken<List<User>> token = new TypeToken<List<User>>() {
             };
-            List<NormalUser> normalUsers = gson.fromJson(json, token.getType());
+            List<User> normalUsers = gson.fromJson(json, token.getType());
 
             return new ArrayList<User>(normalUsers);
 
@@ -93,7 +95,7 @@ public class PersistenceManager {
     public boolean deleteUser(int userId) {
         try {
             List<User> users = loadAllUsers();
-            users.removeIf(user -> getUserId(user) == userId);
+            users.removeIf(user -> user.getId() == userId);
             return saveToFile(Utilities.USERS_FILE, users);
         } catch (Exception e) {
             return false;
@@ -248,24 +250,4 @@ public class PersistenceManager {
             return null;
         }
     }
-
-    // Helper methods para obtener datos de User (ya que es interface)
-    private int getUserId(User user) {
-        if (user instanceof NormalUser) {
-            return ((NormalUser) user).getId();
-        } else if (user instanceof AdminUser) {
-            return ((AdminUser) user).getId();
-        }
-        return 0;
-    }
-
-    private String getUserEmail(User user) {
-        if (user instanceof NormalUser) {
-            return ((NormalUser) user).getEmail();
-        } else if (user instanceof AdminUser) {
-            return ((AdminUser) user).getEmail();
-        }
-        return "";
-    }
-
 }
