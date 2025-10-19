@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import uptc.edu.co.models.settings.Settings;
+import uptc.edu.co.models.settings.SystemSettings;
 import uptc.edu.co.models.user.User;
 
 /**
@@ -23,11 +23,11 @@ public class Session {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private List<PomodoroRecord> currentSessionsRecords; // Pomodoros de esta sesión
-    private Settings settings; // Config específica de esta sesión
+    private SystemSettings settings; // Config específica de esta sesión
 
     public Session() {
         this.currentSessionsRecords = new ArrayList<>();
-        this.settings = new Settings(); // valores por defecto
+        this.settings = new SystemSettings(); // valores por defecto
     }
 
     public Session(User user, String sessionName) {
@@ -35,7 +35,7 @@ public class Session {
         this.sessionName = sessionName;
         this.startTime = LocalDateTime.now();
         this.currentSessionsRecords = new ArrayList<>();
-        this.settings = new Settings(); // valores por defecto
+        this.settings = new SystemSettings(); // valores por defecto
     }
 
     public void initializeSession() {
@@ -85,11 +85,11 @@ public class Session {
         this.sessionName = name;
     }
 
-    public Settings getSettings() {
+    public SystemSettings getSettings() {
         return settings;
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings(SystemSettings settings) {
         this.settings = settings;
     }
 

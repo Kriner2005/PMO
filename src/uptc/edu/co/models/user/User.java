@@ -4,8 +4,8 @@
  */
 package uptc.edu.co.models.user;
 
+import java.io.IOException;
 import java.util.List;
-import uptc.edu.co.models.settings.Settings;
 import uptc.edu.co.models.persistence.PersistenceManager;
 
 /**
@@ -18,28 +18,51 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private Settings userSettings;
     private Role rol;
+    private boolean banned;
+
+    public User(int id, String name, String email, String password, Role rol) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
+        this.banned = false;
+    }
 
     public List<User> viewAllUsers() {
         if (this.rol != Role.ADMIN) {
             throw new SecurityException("Solo administradores pueden ver los usuarios");
         }
-        return new PersistenceManager().loadAllUsers();
+        return new PersistenceManager().loadUsers();
     }
 
     public void banUser(int idUser) {
-        if (this.rol != Role.ADMIN) {
-            throw new SecurityException("Solo administradores pueden banear usuarios");
+        User auxUser = searchUser(idUser);
+        auxUser.setBanned(true);
+    }
+
+    public void promoteUser(int id) {
+        User promoUser = searchUser(id);
+        promoUser.setRol(Role.ADMIN);
+    }
+
+    public User searchUser(int userId) {
+        PersistenceManager manager = new PersistenceManager();
+        List<User> users = manager.loadUsers();
+        User auxUser = null;
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getId() == userId) {
+                auxUser = users.get(i);
+                i = users.size();
+            }
         }
-        // lógica de baneo
+        return auxUser;
     }
 
-    public void deleteUser() {
-    }
-
-    public List<User> viewLoginUsers() {
-        return null;
+    public void deleteUser(int userId) throws IOException {
+        PersistenceManager manager = new PersistenceManager();
+        manager.deleteUser(userId);
     }
 
     public int getId() {
@@ -74,20 +97,20 @@ public class User {
         this.password = password;
     }
 
-    public Settings getUserSettings() {
-        return userSettings;
-    }
-
-    public void setUserSettings(Settings userSettings) {
-        this.userSettings = userSettings;
-    }
-
     public Role getRol() {
         return rol;
     }
 
     public void setRol(Role rol) {
         this.rol = rol;
+    }
+
+    public boolean getBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 
 }

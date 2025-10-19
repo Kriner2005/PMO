@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.UserHistory;
-import uptc.edu.co.models.settings.Settings;
+import uptc.edu.co.models.settings.SystemSettings;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.utilities.Utilities;
 
@@ -27,80 +28,46 @@ import uptc.edu.co.utilities.Utilities;
  */
 public class PersistenceManager {
 
-    private Gson gson;
-    // datos que estaran en la persistencia
+    private final Gson gson = new Gson();
 
-    // Simulando almacenamiento en memoria con HashMaps
     // ------------------ USER ------------------
-    public boolean saveUser(User user) {
-        try {
-            List<User> users = loadAllUsers();
-            if (users == null) {
-                users = new ArrayList<>();
-            }
-
-            // Actualizar o agregar usuario
-            boolean found = false;
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getId() == user.getId()) {
-                    
-                } else {
-                    users.set(i, user);
-                    found = true;
-                    i = users.size();
-                }
-            }
-
-            if (!found) {
-                users.add(user);
-            }
-
-            return saveToFile(Utilities.USERS_FILE, users);
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public User loadUser(String email) {
-        User auxUser = null;
-        List<User> users = loadAllUsers();
-        if (users != null) {
-            for (User user : users) {
-                if (user.getEmail().equals(email)) {
-                    auxUser = user;
-                }
-            }
-        }
-        return auxUser;
-    }
-
-    public List<User> loadAllUsers() {
-        try {
-            String json = readFromFile(Utilities.USERS_FILE);
-            if (json == null || json.trim().isEmpty()) {
-                return new ArrayList<>();
-            }
-
-            TypeToken<List<User>> token = new TypeToken<List<User>>() {
-            };
-            List<User> normalUsers = gson.fromJson(json, token.getType());
-
-            return new ArrayList<User>(normalUsers);
-
+    public List<User> loadUsers() {
+        try (FileReader reader = new FileReader(Utilities.USERS_FILE)) {
+            Type listType = new TypeToken<ArrayList<User>>() {
+            }.getType();
+            return gson.fromJson(reader, listType);
         } catch (Exception e) {
             return new ArrayList<>();
         }
     }
 
-    public boolean deleteUser(int userId) {
-        try {
-            List<User> users = loadAllUsers();
-            users.removeIf(user -> user.getId() == userId);
-            return saveToFile(Utilities.USERS_FILE, users);
-        } catch (Exception e) {
-            return false;
+    public void saveUsers(List<User> users) throws IOException {
+        try (FileWriter writer = new FileWriter(Utilities.USERS_FILE)) {
+            gson.toJson(users, writer);
         }
+    }
+
+    public void addUser(User newUser) throws IOException {
+        List<User> users = loadUsers();
+        users.add(newUser);
+        saveUsers(users);
+    }
+
+    public boolean deleteUser(int userId) throws IOException {
+        List<User> users = loadUsers();
+        boolean remove= false;
+        for (int i = 0; i < users.size(); i++) {
+            if (userId == users.get(i).getId()) {
+                users.remove(i);
+                remove = true;
+                i = users.size();
+            }
+        }
+
+        if (remove) {
+            saveUsers(users);
+        }
+        return remove;
     }
 
     // ------------------ SESSION ------------------
@@ -207,22 +174,22 @@ public class PersistenceManager {
     }
 
     // ------------------ SETTINGS ------------------
-    public boolean saveSettings(Settings settings) {
+    public boolean saveSettings(SystemSettings settings) {
         return saveToFile(Utilities.SETTINGS_FILE, settings);
     }
 
-    public Settings loadSettings() {
+    public SystemSettings loadSettings() {
         try {
             String json = readFromFile(Utilities.SETTINGS_FILE);
             if (json == null || json.trim().isEmpty()) {
-                return new Settings(); // valores por defecto
+                return new SystemSettings(); // valores por defecto
             }
 
-            Settings settings = gson.fromJson(json, Settings.class);
-            return settings != null ? settings : new Settings();
+            SystemSettings settings = gson.fromJson(json, SystemSettings.class);
+            return settings != null ? settings : new SystemSettings();
 
         } catch (Exception e) {
-            return new Settings();
+            return new SystemSettings();
         }
     }
 

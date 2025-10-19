@@ -19,10 +19,11 @@ public class PomodoroRecord {
     private boolean completed; // ¿Se completó o se canceló?
     private PomodoroType type; // WORK, SHORT_BREAK, LONG_BREAK
 
-    public PomodoroRecord(PomodoroType type, String taskName) {
+    public PomodoroRecord(PomodoroType type, String taskName, Settings settings) {
         this.type = type;
         this.taskName = taskName;
         this.startTime = LocalDateTime.now();
+        this.plannedDuration = settings.getDurationForType(type);
         this.completed = false;
     }
 

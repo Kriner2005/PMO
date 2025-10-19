@@ -4,19 +4,19 @@ import uptc.edu.co.models.session.PomodoroRecord;
 import uptc.edu.co.models.session.PomodoroType;
 import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.TimerListener;
-import uptc.edu.co.models.settings.Settings;
+import uptc.edu.co.models.settings.SystemSettings;
 import uptc.edu.co.models.timer.PomodoroTimer;
 
 public class PomodoroController implements TimerListener {
 
     private Session currentSession;
     private PomodoroTimer currentTimer;
-    private Settings settings;
+    private SystemSettings settings;
     private int completedWorkPomodoros;
     private PomodoroRecord currentRecord;
 
     // Constructor
-    public PomodoroController(Session session, Settings settings) {
+    public PomodoroController(Session session, SystemSettings settings) {
         this.currentSession = session;
         this.settings = settings;
         this.completedWorkPomodoros = 0;
@@ -139,7 +139,7 @@ public class PomodoroController implements TimerListener {
                 && completedWorkPomodoros % settings.getLongBreakInterval() == 0;
     }
 
-    public void setSettings(Settings settings) {
+    public void setSettings(SystemSettings settings) {
         this.settings = settings;
     }
 }

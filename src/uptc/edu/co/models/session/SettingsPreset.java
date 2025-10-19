@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
  */
-package uptc.edu.co.models.settings;
+package uptc.edu.co.models.session;
 
 /**
  *
@@ -24,13 +24,6 @@ public enum SettingsPreset {
         this.workDuration = workDuration;
         this.shortBreak = shortBreak;
         this.longBreak = longBreak;
-    }
-
-    public void aplyToSettings(Settings settings) {
-        settings.setWork(workDuration);
-        settings.setShortBreak(shortBreak);
-        settings.setLongBreak(longBreak);
-        settings.setLongBreakInterval(longBreakInterval);
     }
 
     public String getName() {

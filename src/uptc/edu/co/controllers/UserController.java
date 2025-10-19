@@ -9,50 +9,55 @@ package uptc.edu.co.controllers;
  * @author alber
  */
 import java.util.List;
+import uptc.edu.co.models.settings.SystemSettings;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.models.user.Role;
 
 public class UserController {
 
-    private User currentUser;
+    private User loggedUser;
 
-    public boolean login(String email, String password) {
-        // Aquí cargarías el usuario desde PersistenceManager
-        // y verificarías la contraseña
-
-        return false;
-    }
-
-    public boolean isAdmin() {
-        return currentUser != null
-                && currentUser.getRol() == Role.ADMIN;
-    }
-
-    public boolean canBanUsers() {
-        return isAdmin();
-    }
-
-    public boolean canViewAllUsers() {
-        return isAdmin();
-    }
-
-    public boolean canDeleteAnyUser() {
-        return isAdmin();
-    }
-
-    // Métodos protegidos que verifican permisos
-    public List<User> viewAllUsers() {
-        if (!canViewAllUsers()) {
-            throw new SecurityException("No tienes permisos de administrador");
+    public void login(User user) {
+        if (user.getRol() == Role.ADMIN) {
+            openAdminView(user);
+        } else {
+            openUserView(user);
         }
-        // lógica para obtener usuarios
-        return null;
     }
 
-    public void banUser(int userId) {
-        if (!canBanUsers()) {
-            throw new SecurityException("No tienes permisos de administrador");
+    //Crear usuario
+    public User createUser(String name, String email, String password) {
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setEmail(email);
+        newUser.setPassword(password);
+        newUser.setUserSettings(new SystemSettings());
+        newUser.setRol(Role.USER);
+
+        return newUser;
+    }
+
+    public User createAdminUser(String name, String email, String password) {
+        if (!loggedUser.getRol().isAdmin()) {
+            throw new SecurityException("Solo los administradores pueden crear otros administradores.");
         }
-        // lógica para banear usuario
+        User newAdmin = new User();
+        newAdmin.setName(name);
+        newAdmin.setEmail(email);
+        newAdmin.setPassword(password);
+        newAdmin.setUserSettings(new SystemSettings());
+        newAdmin.setRol(Role.ADMIN);
+
+        return newAdmin;
+    }
+
+    private void openAdminView(User user) {
+        //AdminView adminView = new AdminView(user);vista de administrador
+        
+    }
+
+    private void openUserView(User user) {
+        //UserView userView = new UserView(user); vistaNOrmal user
+        //definir si hay 2 vistas para cada tipo de user o solo ocultar las funcionalidades de cada usuario
     }
 }
