@@ -5,10 +5,10 @@
 package uptc.edu.co.models.session;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import uptc.edu.co.models.settings.SystemSettings;
 import uptc.edu.co.models.user.User;
 
 /**
@@ -20,14 +20,15 @@ public class Session {
     private int sessionId;
     private String sessionName; // "Sesión Mañana", "Estudio Matemáticas"
     private User loggedUser; // Referencia al usuario actual
+
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private List<PomodoroRecord> currentSessionsRecords; // Pomodoros de esta sesión
-    private SystemSettings settings; // Config específica de esta sesión
+    private Settings settings; // Config específica de esta sesión
 
     public Session() {
         this.currentSessionsRecords = new ArrayList<>();
-        this.settings = new SystemSettings(); // valores por defecto
+        this.settings = new Settings(); // valores por defecto
     }
 
     public Session(User user, String sessionName) {
@@ -35,7 +36,7 @@ public class Session {
         this.sessionName = sessionName;
         this.startTime = LocalDateTime.now();
         this.currentSessionsRecords = new ArrayList<>();
-        this.settings = new SystemSettings(); // valores por defecto
+        this.settings = new Settings(); // valores por defecto
     }
 
     public void initializeSession() {
@@ -51,10 +52,6 @@ public class Session {
             this.currentSessionsRecords = new ArrayList<>();
         }
         this.currentSessionsRecords.add(record);
-    }
-
-    public Statistics getSessionStats() {
-        return new Statistics();
     }
 
     public boolean isActive() {
@@ -85,11 +82,11 @@ public class Session {
         this.sessionName = name;
     }
 
-    public SystemSettings getSettings() {
+    public Settings getSettings() {
         return settings;
     }
 
-    public void setSettings(SystemSettings settings) {
+    public void setSettings(Settings settings) {
         this.settings = settings;
     }
 
@@ -109,7 +106,7 @@ public class Session {
         this.startTime = startTime;
     }
 
-    public List<PomodoroRecord> getHistory() {
+    public List<PomodoroRecord> getHistoryPomodoros() {
         return currentSessionsRecords;
     }
 
@@ -117,4 +114,8 @@ public class Session {
         this.currentSessionsRecords = currentSessionsRecords;
     }
 
+    public LocalDate getDate() {
+        return startTime.toLocalDate();
+    }
+    
 }

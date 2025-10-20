@@ -37,8 +37,8 @@ public class Statistics {
     public void calateFromSessions(List<Session> sessions) {
         reset();
         for (Session session : sessions) {
-            if (session.getHistory() != null) {
-                caculateFromRecords(session.getHistory());
+            if (session.getHistoryPomodoros() != null) {
+                caculateFromRecords(session.getHistoryPomodoros());
             }
         }
     }

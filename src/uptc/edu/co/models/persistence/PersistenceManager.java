@@ -5,21 +5,24 @@
 package uptc.edu.co.models.persistence;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.UserHistory;
-import uptc.edu.co.models.settings.SystemSettings;
 import uptc.edu.co.models.user.User;
+import uptc.edu.co.utilities.LocalDateTimeAdapter;
 import uptc.edu.co.utilities.Utilities;
 
 /**
@@ -28,7 +31,10 @@ import uptc.edu.co.utilities.Utilities;
  */
 public class PersistenceManager {
 
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .setPrettyPrinting()
+            .create();
 
     // ------------------ USER ------------------
     public List<User> loadUsers() {
@@ -51,11 +57,12 @@ public class PersistenceManager {
         List<User> users = loadUsers();
         users.add(newUser);
         saveUsers(users);
+        createHistory(newUser.getId());
     }
 
     public boolean deleteUser(int userId) throws IOException {
         List<User> users = loadUsers();
-        boolean remove= false;
+        boolean remove = false;
         for (int i = 0; i < users.size(); i++) {
             if (userId == users.get(i).getId()) {
                 users.remove(i);
@@ -71,125 +78,86 @@ public class PersistenceManager {
     }
 
     // ------------------ SESSION ------------------
-    public boolean saveSession(Session session) {
+    public boolean saveSession(int userId, Session session) {
         try {
-            Map<Integer, Session> sessions = loadAllSessions();
-            sessions.put(session.getSessionId(), session);
-            return saveToFile(Utilities.SESSIONS_FILE, sessions);
+            String filePath = Utilities.HISTORIES + "history_" + userId + ".json";
+
+            // Cargar el historial como objeto UserHistory
+            UserHistory history = loadUserHistory(userId);
+            history.setNumSessions(history.getNumSessions()+ 1);
+            // Añadir la nueva sesión
+            session.setSessionId(history.getNumSessions());
+            history.addCompletedSession(session);
+
+            // Guardar nuevamente
+            return saveToFile(filePath, history);
+
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
-    public Session loadSession(int sessionId) {
+    public List<Session> loadSessionsByDate(int userId, LocalDate date) {
+        String filePath = Utilities.HISTORIES + "history" + userId + ".json";
+        Map<String, List<Session>> userHistory = loadUserHistoryFile(filePath);
 
-        Map<Integer, Session> sessions = loadAllSessions();
-        return sessions.get(sessionId);
+        return userHistory.getOrDefault(date.toString(), new ArrayList<>());
     }
 
-    private Map<Integer, Session> loadAllSessions() {
+    private Map<String, List<Session>> loadUserHistoryFile(String filePath) {
         try {
-            String json = readFromFile(Utilities.SESSIONS_FILE);
+            String json = readFromFile(filePath);
             if (json == null || json.trim().isEmpty()) {
                 return new HashMap<>();
             }
 
-            TypeToken<Map<Integer, Session>> token = new TypeToken<Map<Integer, Session>>() {
+            TypeToken<Map<String, List<Session>>> token = new TypeToken<Map<String, List<Session>>>() {
             };
             return gson.fromJson(json, token.getType());
 
         } catch (Exception e) {
+            e.printStackTrace();
             return new HashMap<>();
         }
     }
 
     // ------------------ USER HISTORY ------------------
-    public boolean saveUserHistory(UserHistory history) {
+    public boolean createHistory(int userId) {
         try {
-            List<UserHistory> histories = loadAllHistories();
+            File file = new File(Utilities.HISTORIES + "history_" + userId + ".json");
 
-            // Actualizar o agregar historial
-            boolean found = false;
-            for (int i = 0; i < histories.size(); i++) {
-                UserHistory h = histories.get(i);
-                if (h.getUserId() == history.getUserId()
-                        && h.getDate().equals(history.getDate())) {
-                    histories.set(i, history);
-                    found = true;
-                    break;
-                }
+            // Si ya existe, no lo vuelve a crear
+            if (file.exists()) {
+                return false;
             }
 
-            if (!found) {
-                histories.add(history);
-            }
+            // Crear un historial vacío
+            UserHistory newHistory = new UserHistory(userId);
 
-            return saveToFile(Utilities.HISTORIES_FILE, histories);
+            // Guardar el archivo vacío
+            return saveToFile(file.getPath(), newHistory);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
-    public UserHistory loadUserHistory(int userId, LocalDate date) {
-        List<UserHistory> histories = loadAllHistories();
-        for (UserHistory history : histories) {
-            if (history.getUserId() == userId && history.getDate().equals(date)) {
-                return history;
-            }
-        }
-        return null;
-    }
-
-    public List<UserHistory> loadUserHistory(int userId, LocalDate fromDate, LocalDate toDate) {
-        List<UserHistory> histories = loadAllHistories();
-        List<UserHistory> filtered = new ArrayList<>();
-
-        for (UserHistory history : histories) {
-            if (history.getUserId() == userId) {
-                LocalDate date = history.getDate();
-                if (!date.isBefore(fromDate) && !date.isAfter(toDate)) {
-                    filtered.add(history);
-                }
-            }
-        }
-
-        return filtered;
-    }
-
-    private List<UserHistory> loadAllHistories() {
+    public UserHistory loadUserHistory(int userId) {
         try {
-            String json = readFromFile(Utilities.HISTORIES_FILE);
+            String path = Utilities.HISTORIES + "history_" + userId + ".json";
+            String json = readFromFile(path);
+
             if (json == null || json.trim().isEmpty()) {
-                return new ArrayList<>();
+                return new UserHistory(userId); // Devuelve vacío si no hay datos
             }
 
-            TypeToken<List<UserHistory>> token = new TypeToken<List<UserHistory>>() {
-            };
-            return gson.fromJson(json, token.getType());
+            return gson.fromJson(json, UserHistory.class);
 
         } catch (Exception e) {
-            return new ArrayList<>();
-        }
-    }
-
-    // ------------------ SETTINGS ------------------
-    public boolean saveSettings(SystemSettings settings) {
-        return saveToFile(Utilities.SETTINGS_FILE, settings);
-    }
-
-    public SystemSettings loadSettings() {
-        try {
-            String json = readFromFile(Utilities.SETTINGS_FILE);
-            if (json == null || json.trim().isEmpty()) {
-                return new SystemSettings(); // valores por defecto
-            }
-
-            SystemSettings settings = gson.fromJson(json, SystemSettings.class);
-            return settings != null ? settings : new SystemSettings();
-
-        } catch (Exception e) {
-            return new SystemSettings();
+            e.printStackTrace();
+            return new UserHistory(userId);
         }
     }
 

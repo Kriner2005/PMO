@@ -39,22 +39,6 @@ public class PomodoroRecord {
         }
     }
 
-    public double getEfficiencyPercentage() {
-        if (plannedDuration <= 0) {
-            return 0;
-        }
-        // Suponiendo que la duración planificada es el tiempo ideal
-        int idealDuration = switch (type) {
-            case WORK ->
-                25;
-            case SHORT_BREAK ->
-                5;
-            case LONG_BREAK ->
-                15;
-        };
-        return Math.min(100, (idealDuration / (double) plannedDuration) * 100);
-    }
-
     public LocalDateTime getStartTime() {
         return startTime;
     }
