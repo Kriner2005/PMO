@@ -1,0 +1,33 @@
+{
+  "2025-10-19": [
+    {
+      "sessionId": 0,
+      "sessionName": "Matematicas",
+      "loggedUser": {
+        "id": 1,
+        "name": "keiner",
+        "email": "@gmail",
+        "password": "1",
+        "rol": "USER",
+        "banned": false
+      },
+      "startTime": "2025-10-19T14:55:10.0215629",
+      "endTime": "2025-10-19T14:55:10.0215629",
+      "currentSessionsRecords": [
+        {
+          "startTime": "2025-10-19T14:55:10.0235626",
+          "plannedDuration": 25,
+          "taskName": "Ecuaciones",
+          "completed": false,
+          "type": "WORK"
+        }
+      ],
+      "settings": {
+        "workDuration": 25,
+        "shortBreakDuration": 5,
+        "longBreakDuration": 15,
+        "longBreakInterval": 4
+      }
+    }
+  ]
+}
