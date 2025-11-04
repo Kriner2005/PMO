@@ -1,7 +1,6 @@
 package uptc.edu.co.view.subVistas;
 
 import uptc.edu.co.utilities.CustomComponents;
-import control.Control;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -15,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ActionListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
@@ -39,7 +39,7 @@ public class TaskPanel extends JPanel {
 
     private JPanel taskListPanel;
     private JFrame frame;
-    private Control controller;
+    private ActionListener listener;
     private JPanel contentPanel;
     private JLabel title;
     private JScrollPane scrollPane;
@@ -48,9 +48,9 @@ public class TaskPanel extends JPanel {
     private JPanel bottomPanel;
     private JButton checkBtn;
 
-    public TaskPanel(Control controller) {
+    public TaskPanel(ActionListener listener) {
 
-        this.controller = controller;
+        this.listener = listener;
         frame = new JFrame("Tasks");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(515, 550);
@@ -107,7 +107,7 @@ public class TaskPanel extends JPanel {
         addTaskBtn.setBorder(new DashedBorder(Color.WHITE, 2));
         addTaskBtn.setPreferredSize(new Dimension(200, 40));
         addTaskBtn.setActionCommand("ADD_TASK");
-        addTaskBtn.addActionListener(controller);
+        addTaskBtn.addActionListener(listener);
 
         bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.setBackground(Color.decode("#b21818"));
@@ -184,7 +184,7 @@ public class TaskPanel extends JPanel {
         checkBtn.setContentAreaFilled(false);
         checkBtn.setOpaque(false);
         checkBtn.setActionCommand("MARK_DONE");
-        checkBtn.addActionListener(controller);
+        checkBtn.addActionListener(listener);
 
          ImageIcon baseIcon = new ImageIcon(getClass().getResource("/images/paulas/check.png"));
         Color iconColor = done ? Color.GRAY : new Color(201, 94, 99, 179);

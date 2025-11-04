@@ -22,8 +22,6 @@ public class PomodoroLogin extends JDialog {
 
     private JTextField emailField;
     private JPasswordField passwordField;
-    private String placeholder;
-    private boolean showingPlaceholder;
     private JLabel labelImagen;
     private ActionListener listener;
     private JPanel fondo;
@@ -137,8 +135,14 @@ public class PomodoroLogin extends JDialog {
         return pass;
     }
 
-    public static void main(String[] args) {
-        PomodoroLogin panel = new PomodoroLogin(null);
+    public void setTextEmail() {
+        emailField.setText("");
 
     }
+
+    public void setTextPassword() {
+        passwordField.setText("");
+
+    }
+
 }
