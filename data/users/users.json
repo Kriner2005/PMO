@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "kEINRE",
+    "email": "asdsa",
+    "password": "asdasd",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 2,
+    "name": "sara",
+    "email": "asdsa",
+    "password": "asdasd",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 3,
+    "name": "rosa",
+    "email": "asdsa",
+    "password": "asdasd",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 4,
+    "name": "enrique",
+    "email": "asdsa",
+    "password": "asdasd",
+    "rol": "USER",
+    "banned": false
+  }
+]

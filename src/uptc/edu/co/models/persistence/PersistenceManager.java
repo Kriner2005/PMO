@@ -47,10 +47,22 @@ public class PersistenceManager {
         }
     }
 
-    public void saveUsers(List<User> users) throws IOException {
+    private void saveUsers(List<User> users) throws IOException {
         try (FileWriter writer = new FileWriter(Utilities.USERS_FILE)) {
             gson.toJson(users, writer);
         }
+    }
+
+    public User loadUser(String email) {
+        List<User> list = loadUsers();
+        User user = null;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getEmail() == null ? email == null : list.get(i).getEmail().equals(email)) {
+                user = list.get(i);
+                i = list.size();
+            }
+        }
+        return user;
     }
 
     public void addUser(User newUser) throws IOException {
@@ -84,7 +96,7 @@ public class PersistenceManager {
 
             // Cargar el historial como objeto UserHistory
             UserHistory history = loadUserHistory(userId);
-            history.setNumSessions(history.getNumSessions()+ 1);
+            history.setNumSessions(history.getNumSessions() + 1);
             // Añadir la nueva sesión
             session.setSessionId(history.getNumSessions());
             history.addCompletedSession(session);
