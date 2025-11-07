@@ -83,10 +83,7 @@ public class TaskPanel extends JPanel {
         taskListPanel.setLayout(new BoxLayout(taskListPanel, BoxLayout.Y_AXIS));
         taskListPanel.setBackground(Utilities.TASKPANEL_FONDO_PANELTASK);
         taskListPanel.setBorder(new EmptyBorder(10, 16, 10, 16));
-
-        addTask("Do The Programming Homework", false);
-        addTask("I Have To Study English For Homework", true);
-
+      
         scrollPane = new JScrollPane(taskListPanel);
         scrollPane.setBorder(null);
         scrollPane.getViewport().setBackground(Utilities.TASKPANEL_SCROLLPANE);
@@ -186,7 +183,7 @@ public class TaskPanel extends JPanel {
         checkBtn.setActionCommand("MARK_DONE");
         checkBtn.addActionListener(listener);
 
-         ImageIcon baseIcon = new ImageIcon(getClass().getResource("/images/paulas/check.png"));
+         ImageIcon baseIcon = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/check.png"));
         Color iconColor = done ? Color.GRAY : new Color(201, 94, 99, 179);
         Image recoloredIcon = tintImage(baseIcon.getImage(), iconColor);
         checkBtn.setIcon(new ImageIcon(recoloredIcon));
@@ -208,7 +205,7 @@ public class TaskPanel extends JPanel {
             label.setText("<html><strike>" + label.getText().replace("<html>", "").replace("</html>", "") + "</strike></html>");
             label.setForeground(Color.GRAY);
 
-           ImageIcon baseIcon = new ImageIcon(getClass().getResource("/images/paulas/check.png"));
+           ImageIcon baseIcon = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/check.png"));
 
             Image grayIcon = tintImage(baseIcon.getImage(), Color.GRAY);
             btn.setIcon(new ImageIcon(grayIcon));

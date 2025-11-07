@@ -20,6 +20,7 @@ public class Session {
     private int sessionId;
     private String sessionName; // "Sesión Mañana", "Estudio Matemáticas"
     private User loggedUser; // Referencia al usuario actual
+    private List<String> taskList;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -29,9 +30,11 @@ public class Session {
     public Session() {
         this.currentSessionsRecords = new ArrayList<>();
         this.settings = new Settings(); // valores por defecto
+        this.taskList = new ArrayList<>();
     }
 
     public Session(User user, String sessionName) {
+        
         this.loggedUser = user;
         this.sessionName = sessionName;
         this.startTime = LocalDateTime.now();
@@ -52,6 +55,10 @@ public class Session {
             this.currentSessionsRecords = new ArrayList<>();
         }
         this.currentSessionsRecords.add(record);
+    }
+    
+    public void addTask(String task) {
+        taskList.add(task);
     }
 
     public boolean isActive() {
@@ -117,5 +124,16 @@ public class Session {
     public LocalDate getDate() {
         return startTime.toLocalDate();
     }
-    
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public List<String> getTaskList() {
+        return taskList;
+    }
 }

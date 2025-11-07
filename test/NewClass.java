@@ -22,17 +22,20 @@ import uptc.edu.co.models.user.User;
  */
 public class NewClass {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         User user = new User(2, "sara", "@gmail", "asd", Role.USER);
         PersistenceManager manager = new PersistenceManager();
         manager.addUser(user);
+        //creo la session
         Session auxSession = new Session(user, "ingles");
-        auxSession.initializeSession();
-        auxSession.finalizeSession();
+        //paso la configuración previa
         Settings config = new Settings();
         config.loadPreset(SettingsPreset.CLASSIC);
+        auxSession.initializeSession();
         auxSession.setSessionId(0);
-        auxSession.addPomodoroRecord(new PomodoroRecord(PomodoroType.WORK, "Ecuaciones", config));
+        Thread.sleep(60000);
+        auxSession.finalizeSession();
+        auxSession.addPomodoroRecord(new PomodoroRecord(PomodoroType.WORK, auxSession.getStartTime(), auxSession.getEndTime(), false));
         manager.saveSession(user.getId(), auxSession);
     }
 }

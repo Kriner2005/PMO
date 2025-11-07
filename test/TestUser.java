@@ -1,10 +1,12 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import uptc.edu.co.models.persistence.PersistenceManager;
-import uptc.edu.co.models.user.Role;
-import uptc.edu.co.models.user.User;
+import javax.swing.JButton;
+import uptc.edu.co.models.session.Session;
+import uptc.edu.co.view.subVistas.AddTaskDialog;
+import uptc.edu.co.view.subVistas.TaskPanel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -14,17 +16,44 @@ import uptc.edu.co.models.user.User;
  *
  * @author alber
  */
-public class TestUser {
+public class TestUser implements ActionListener {
+
+    private TaskPanel panel;
+    private Session session;
+
+    public TestUser() {
+        this.panel = new TaskPanel(this);
+        this.session = new Session();
+        List<String> lista = session.getTaskList();
+        lista.add("ingles");
+        lista.add("español");
+        lista.add("matematicas");
+
+        for (String task : lista) {
+            panel.addTask(task, false);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("ADD_TASK") && panel != null) {
+            AddTaskDialog dialog = new AddTaskDialog(panel.getParentFrame());
+            dialog.setVisible(true);
+
+            String task = dialog.getTask();
+            if (task != null && !task.trim().isEmpty()) {
+                session.getTaskList().add(task);
+                panel.addTask(task, false);
+                System.out.println(session.getTaskList().toString());
+            }
+        }
+        
+        if (e.getActionCommand() == "MARK_DONE") {
+            panel.markTaskDone((JButton)e.getSource());
+        }
+    }
 
     public static void main(String[] args) throws IOException {
-        PersistenceManager manager = new PersistenceManager();
-//        User user1 = new User(1, "kEINRE", "asdsa", "asdasd", Role.USER);
-//        User user2 = new User(2, "sara", "asdsa", "asdasd", Role.USER);
-//        User user3 = new User(3, "rosa", "asdsa", "asdasd", Role.USER);
-//        User user4 = new User(4, "enrique", "asdsa", "asdasd", Role.USER);
-//        manager.addUser(user1);
-//        manager.addUser(user2);
-//        manager.addUser(user3);
-//        manager.addUser(user4);
+        new TestUser();
     }
 }

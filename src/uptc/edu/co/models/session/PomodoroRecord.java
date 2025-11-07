@@ -15,28 +15,14 @@ public class PomodoroRecord {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private int plannedDuration; // duración real del pomodoro
-    private String taskName; // "Estudiar Java", "Leer libro"
     private boolean completed; // ¿Se completó o se canceló?
     private PomodoroType type; // WORK, SHORT_BREAK, LONG_BREAK
 
-    public PomodoroRecord(PomodoroType type, String taskName, Settings settings) {
+    public PomodoroRecord(PomodoroType type, LocalDateTime startTime, LocalDateTime endTime, boolean completed) {
         this.type = type;
-        this.taskName = taskName;
-        this.startTime = LocalDateTime.now();
-        this.plannedDuration = settings.getDurationForType(type);
-        this.completed = false;
-    }
-
-    public void startRecord() {
-        this.startTime = LocalDateTime.now();
-    }
-
-    public void endRecord(boolean completed) {
-        this.endTime = LocalDateTime.now();
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.completed = completed;
-        if (startTime != null && endTime != null) {
-            this.plannedDuration = (int) java.time.Duration.between(startTime, endTime).toMinutes();
-        }
     }
 
     public LocalDateTime getStartTime() {
@@ -62,15 +48,6 @@ public class PomodoroRecord {
     public void setPlannedDuration(int duration) {
         this.plannedDuration = duration;
     }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
     public boolean isCompleted() {
         return completed;
     }
