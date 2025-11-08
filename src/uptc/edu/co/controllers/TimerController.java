@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -10,6 +10,7 @@ import uptc.edu.co.models.timer.Timer;
 import uptc.edu.co.models.session.TimerListener;
 
 import java.awt.Color;
+import uptc.edu.co.models.session.Settings;
 import uptc.edu.co.utilities.CustomComponents;
 import uptc.edu.co.view.View;
 
@@ -23,7 +24,7 @@ public class TimerController {
     private View vista;
     private Timer timerActual;
     private int tiempoTotal;
-
+    private Settings settings;   
     // Los tres modos del pomodoro
     private PomodoroTimer pomodoroTimer;
     private PomodoroTimer shortBreakTimer;

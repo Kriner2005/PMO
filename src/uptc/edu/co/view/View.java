@@ -505,6 +505,22 @@ public class View extends javax.swing.JFrame {
         return rightCalendar; // Botón para abrir TaskPanel
     }
 
+    public JButton getUserBtn() {
+        return userBtn;
+    }
+
+    public JButton getReportBtn() {
+        return reportBtn;
+    }
+
+    public JButton getSettingBtn() {
+        return settingBtn;
+    }
+
+    public JButton getHelpBtn() {
+        return helpBtn;
+    }
+
     public void actualizarTiempo(String tiempo) {
         jLabelTiempo.setText(tiempo);
     }
