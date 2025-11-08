@@ -8,18 +8,18 @@ import uptc.edu.co.utilities.Utilities;
 
 public class Help extends JDialog {
 
-    private JTextArea title, text;
-    private JLabel labelImagen;
-    private ActionListener listener;
+    private final ActionListener listener;
     private int numberPage;
-    private ImageIcon icono, iconNext;
-    private JPanel panel, panelNorth, panelCenter, panelLeft, panelRigth;
-
+    private JLabel JLabelTitle, JLabelText;
+    private final ImageIcon icono;
+    private final ImageIcon iconNext;
+    private JPanel panel, panelNorth, panelCenter, panelLeft, panelRight;
 
     public Help(ActionListener listener, int numberPage) {
         this.listener = listener;
         this.numberPage = numberPage;
-        this.setTitle("Ayuda");
+        this.icono = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/flecha1.png"));
+        this.iconNext = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/flecha.png"));
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setSize(500, 300);
         initComponents();
@@ -29,7 +29,7 @@ public class Help extends JDialog {
     private void initComponents() {
         GridBagConstraints gbc = new GridBagConstraints();
 
-        panel = new CustomComponents().createRoundedPanel(30, Utilities.MAIN_COLOR, 4, null);
+        panel = CustomComponents.createRoundedPanel(30, Utilities.MAIN_COLOR, 4, null);
         panel.setLayout(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -51,18 +51,17 @@ public class Help extends JDialog {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        title = createJTextArea("", Utilities.TITLE_FONT_HELP, Color.WHITE);
-        title.setBorder(BorderFactory.createEmptyBorder(2, 20, 2, 20));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelCenter.add(title, gbc);
+        JLabelTitle = createLabel("", Utilities.TITLE_FONT_HELP, Color.WHITE);
+        JLabelTitle.setBorder(BorderFactory.createEmptyBorder(2, 20, 2, 20));
+        panelCenter.add(JLabelTitle, gbc);
 
-        text = createJTextArea("", Utilities.TEXT_FONT_HELP, Color.WHITE);
-        text.setBorder(BorderFactory.createEmptyBorder(10, 2, 30, 2));
+        JLabelText = createLabel("", Utilities.TEXT_FONT_HELP, Color.WHITE);
+        JLabelText.setBorder(BorderFactory.createEmptyBorder(10, 2, 30, 2));
         gbc.gridy++;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
-        panelCenter.add(text, gbc);
+        panelCenter.add(JLabelText, gbc);
 
         panel.add(panelCenter, BorderLayout.CENTER);
 
@@ -71,14 +70,13 @@ public class Help extends JDialog {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.CENTER;
 
-        panelRigth = new JPanel(new GridBagLayout());
-        panelRigth.setOpaque(false);
+        panelRight = new JPanel(new GridBagLayout());
+        panelRight.setOpaque(false);
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.CENTER;
-
-        createButtons(gbc);
+        updateButtons();
         panel.add(panelLeft, BorderLayout.WEST);
-        panel.add(panelRigth, BorderLayout.EAST);
+        panel.add(panelRight, BorderLayout.EAST);
 
         setPageContent();
 
@@ -86,48 +84,16 @@ public class Help extends JDialog {
     }
 
     public void setTextTitle(String title) {
-        this.title.setText(title);
+        this.JLabelTitle.setText("<html><div style='text-align: center;'>" + title + "</div></html>");
+
     }
 
     public void setText(String text) {
-        this.text.setText(text);
-    }
-
-    private void createButtons(GridBagConstraints gbc) {
-//        icono = new ImageIcon("src/resources/flecha1.png");
-//        iconNext = new ImageIcon("src/resources/flecha.png");
-
-        icono = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/flecha1.png"));
-        iconNext = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/flecha.png"));
-
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
-
-        if (numberPage > 1) {
-            JButton prev = createButton(icono, "PREV_PAGE");
-            gbc.anchor = GridBagConstraints.WEST;
-
-            panelLeft.add(prev, gbc);
-        }
-        if (numberPage == 1) {
-            JLabel ext = createLabel("             ", Utilities.TEXT_FONT_HELP, Utilities.MAIN_COLOR);
-            panelLeft.add(ext, gbc);
-        }
-
-        if (numberPage < 5) {
-            JButton next = createButton(iconNext, "NEXT_PAGE");
-            gbc.anchor = GridBagConstraints.EAST;
-
-            panelRigth.add(next, gbc);
-        }
-        if (numberPage == 5) {
-            JLabel ext = createLabel("             ", Utilities.TEXT_FONT_HELP, Utilities.MAIN_COLOR);
-            panelRigth.add(ext, gbc);
-        }
+        this.JLabelText.setText("<html>" + text + "</html>");
     }
 
     private JButton createButton(ImageIcon icon, String command) {
-        JButton button = new CustomComponents().createRoundedButton("", Utilities.MAIN_COLOR, 20, 0, 0);
+        JButton button = CustomComponents.createRoundedButton("", Utilities.MAIN_COLOR, 20, 0, 0);
         button.setIcon(icon);
         button.setActionCommand(command);
         button.addActionListener(listener);
@@ -138,17 +104,15 @@ public class Help extends JDialog {
         if (numberPage >= 1 && numberPage <= Utilities.PAGES.length) {
             setTextTitle(Utilities.PAGES[numberPage - 1][0]);
             setText(Utilities.PAGES[numberPage - 1][1]);
-
-            // IMPORTANTE: Actualizar los botones
             updateButtons();
+            revalidate();
+            repaint();
         }
     }
 
-// Nuevo método para actualizar los botones según la página actual
     private void updateButtons() {
-        // Limpiar los paneles
         panelLeft.removeAll();
-        panelRigth.removeAll();
+        panelRight.removeAll();
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -160,38 +124,38 @@ public class Help extends JDialog {
             gbc.anchor = GridBagConstraints.WEST;
             panelLeft.add(prev, gbc);
         } else {
-            JLabel ext = createLabel("             ", Utilities.TEXT_FONT_HELP, Utilities.MAIN_COLOR);
+            JLabel ext = createLabel("       ", Utilities.TEXT_FONT_HELP, Utilities.MAIN_COLOR);
             panelLeft.add(ext, gbc);
         }
 
         // Botón NEXT
-        if (numberPage < 5) {
+        if (numberPage < Utilities.PAGES.length) {
             JButton next = createButton(iconNext, "NEXT_PAGE");
             gbc.anchor = GridBagConstraints.EAST;
-            panelRigth.add(next, gbc);
+            panelRight.add(next, gbc);
         } else {
-            JLabel ext = createLabel("             ", Utilities.TEXT_FONT_HELP, Utilities.MAIN_COLOR);
-            panelRigth.add(ext, gbc);
+            JLabel ext = createLabel("       ", Utilities.TEXT_FONT_HELP, Utilities.MAIN_COLOR);
+            panelRight.add(ext, gbc);
         }
 
-        // Refrescar los paneles
         panelLeft.revalidate();
         panelLeft.repaint();
-        panelRigth.revalidate();
-        panelRigth.repaint();
+        panelRight.revalidate();
+        panelRight.repaint();
     }
 
-    public void setNumenerPage(int numberpage) {
+    public void setNumberPage(int numberpage) {
         this.numberPage = numberpage;
+        setPageContent();
+
     }
 
-    public int getNumenerPage() {
+    public int getNumberPage() {
         return this.numberPage;
     }
 
     private void addLogoSection(GridBagConstraints gbc) {
         ImageIcon icon = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/image.png"));
-
 
         JLabel leftImg = new JLabel(icon);
         gbc.gridx = 0;
@@ -210,25 +174,12 @@ public class Help extends JDialog {
         panelNorth.add(rightImg, gbc);
     }
 
-    private JTextArea createJTextArea(String text, Font font, Color color) {
-        JTextArea textArea = new JTextArea(text);
-        textArea.setFont(font);
-        textArea.setForeground(color);
-        textArea.setWrapStyleWord(true);
-        textArea.setLineWrap(true);
-        textArea.setEditable(false);
-        textArea.setOpaque(false);
-        return textArea;
-    }
-
     private JLabel createLabel(String text, Font font, Color color) {
         JLabel label = new JLabel(text);
         label.setFont(font);
         label.setForeground(color);
         return label;
     }
-    public static void main(String[] args) {
-        Help hp = new Help(null, 1);
-        hp.setVisible(true);
-    }
+
+
 }
