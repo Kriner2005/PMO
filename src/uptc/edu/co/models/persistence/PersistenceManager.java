@@ -13,14 +13,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import uptc.edu.co.models.session.Session;
-import uptc.edu.co.models.session.UserHistory;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.utilities.LocalDateTimeAdapter;
 import uptc.edu.co.utilities.Utilities;
@@ -69,7 +65,6 @@ public class PersistenceManager {
         List<User> users = loadUsers();
         users.add(newUser);
         saveUsers(users);
-        createHistory(newUser.getId());
     }
 
     public boolean deleteUser(int userId) throws IOException {
@@ -93,83 +88,55 @@ public class PersistenceManager {
     public boolean saveSession(int userId, Session session) {
         try {
             String filePath = Utilities.HISTORIES + "history_" + userId + ".json";
-
-            // Cargar el historial como objeto UserHistory
-            UserHistory history = loadUserHistory(userId);
-            history.setNumSessions(history.getNumSessions() + 1);
-            // Añadir la nueva sesión
-            session.setSessionId(history.getNumSessions());
-            history.addCompletedSession(session);
-
-            // Guardar nuevamente
-            return saveToFile(filePath, history);
-
+            session.setSessionId(userId);
+            return saveToFile(filePath, session);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public List<Session> loadSessionsByDate(int userId, LocalDate date) {
-        String filePath = Utilities.HISTORIES + "history" + userId + ".json";
-        Map<String, List<Session>> userHistory = loadUserHistoryFile(filePath);
+    public List<Session> loadAllSessions() {
+        List<Session> sessions = new ArrayList<>();
+        File directory = new File(Utilities.HISTORIES); // ruta donde están los JSON
 
-        return userHistory.getOrDefault(date.toString(), new ArrayList<>());
+        if (!directory.exists() || !directory.isDirectory()) {
+            System.out.println("Directorio de sesiones no encontrado: " + Utilities.HISTORIES);
+            return sessions;
+        }
+
+        File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
+
+        if (files != null) {
+            for (File file : files) {
+                try (FileReader reader = new FileReader(file)) {
+                    Session session = gson.fromJson(reader, Session.class);
+                    if (session != null) {
+                        sessions.add(session);
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error al leer sesión: " + file.getName());
+                    e.printStackTrace();
+                }
+            }
+        }
+        return sessions;
     }
 
-    private Map<String, List<Session>> loadUserHistoryFile(String filePath) {
+    public Session loadSession(int userId) {
         try {
+            String filePath = Utilities.HISTORIES + "session_" + userId + ".json";
             String json = readFromFile(filePath);
-            if (json == null || json.trim().isEmpty()) {
-                return new HashMap<>();
-            }
-
-            TypeToken<Map<String, List<Session>>> token = new TypeToken<Map<String, List<Session>>>() {
-            };
-            return gson.fromJson(json, token.getType());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new HashMap<>();
-        }
-    }
-
-    // ------------------ USER HISTORY ------------------
-    public boolean createHistory(int userId) {
-        try {
-            File file = new File(Utilities.HISTORIES + "history_" + userId + ".json");
-
-            // Si ya existe, no lo vuelve a crear
-            if (file.exists()) {
-                return false;
-            }
-
-            // Crear un historial vacío
-            UserHistory newHistory = new UserHistory(userId);
-
-            // Guardar el archivo vacío
-            return saveToFile(file.getPath(), newHistory);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public UserHistory loadUserHistory(int userId) {
-        try {
-            String path = Utilities.HISTORIES + "history_" + userId + ".json";
-            String json = readFromFile(path);
 
             if (json == null || json.trim().isEmpty()) {
-                return new UserHistory(userId); // Devuelve vacío si no hay datos
+                return new Session(); // si no existe, crear una vacía
             }
 
-            return gson.fromJson(json, UserHistory.class);
+            return gson.fromJson(json, Session.class);
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new UserHistory(userId);
+            return new Session();
         }
     }
 

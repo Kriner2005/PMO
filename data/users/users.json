@@ -1,9 +1,25 @@
 [
   {
+    "id": 1,
+    "name": "keiner",
+    "email": "",
+    "password": "",
+    "rol": "USER",
+    "banned": false
+  },
+  {
     "id": 2,
     "name": "sara",
-    "email": "@gmail",
-    "password": "asd",
+    "email": "",
+    "password": "",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 3,
+    "name": "rosa",
+    "email": "",
+    "password": "",
     "rol": "USER",
     "banned": false
   }

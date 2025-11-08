@@ -4,8 +4,15 @@
  */
 package uptc.edu.co.models.session;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import uptc.edu.co.models.persistence.PersistenceManager;
+import uptc.edu.co.models.user.Role;
+import uptc.edu.co.models.user.User;
 
 /**
  *
@@ -34,15 +41,6 @@ public class Statistics {
         this.calulationDate = LocalDateTime.now();
     }
 
-    public void calateFromSessions(List<Session> sessions) {
-        reset();
-        for (Session session : sessions) {
-            if (session.getHistoryPomodoros() != null) {
-                caculateFromRecords(session.getHistoryPomodoros());
-            }
-        }
-    }
-
     private void reset() {
         this.totalWorkPomodoros = 0;
         this.totalShortBreaks = 0;
@@ -53,6 +51,52 @@ public class Statistics {
         this.completionRate = 0.0;
     }
 
+    public List<Map.Entry<User, Double>> getUserRankingByHours() {
+        PersistenceManager manager = new PersistenceManager();
+        Map<User, Double> userHours = new HashMap<>();
+        List<Session> sessions = manager.loadAllSessions();
+        for (Session s : sessions) {
+            if (s.getLoggedUser() != null && s.getStartTime() != null && s.getEndTime() != null) {
+                double hours = getTotalMinutes(s.getStartTime(), s.getEndTime()) / 60.0;
+                userHours.put(s.getLoggedUser(), userHours.getOrDefault(s.getLoggedUser(), 0.0) + hours);
+            }
+        }
+
+        List<Map.Entry<User, Double>> sorted = new ArrayList<>(userHours.entrySet());
+        sorted.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+
+        return sorted;
+    }
+
+    public Duration calculateDuration(LocalDateTime startTime, LocalDateTime endTime) {
+        if (startTime == null || endTime == null) {
+            return Duration.ZERO;
+        }
+        return Duration.between(startTime, endTime);
+    }
+
+    public long getTotalMinutes(LocalDateTime startTime, LocalDateTime endTime) {
+        return calculateDuration(startTime, endTime).toMinutes();
+    }
+
+    //datos de prueba
+    public List<Map.Entry<User, Double>> prueba() {
+        // 🔹 Datos de ejemplo (mock)
+        Map<User, Double> userHours = new HashMap<>();
+
+        userHours.put(new User(123, "Alice", "", "", Role.USER), 12.5);
+        userHours.put(new User(456, "Bob", "", "", Role.USER), 7.8);
+        userHours.put(new User(789, "Carlos", "", "", Role.USER), 15.2);
+        userHours.put(new User(321, "Diana", "", "", Role.USER), 9.0);
+        userHours.put(new User(654, "Erick", "", "", Role.USER), 20.3);
+
+        // 🔹 Ordenar por horas (descendente)
+        List<Map.Entry<User, Double>> sorted = new ArrayList<>(userHours.entrySet());
+        sorted.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+
+        return sorted;
+    }
+
     public void caculateFromRecords(List<PomodoroRecord> records) {
         reset();
         int completedWork = 0;
@@ -60,22 +104,27 @@ public class Statistics {
         double totalDuration = 0;
 
         for (PomodoroRecord record : records) {
-            if (record.getType() == PomodoroType.WORK) {
-                totalWork++;
-                totalWorkTime += record.getPlannedDuration();
-                if (record.isCompleted()) {
-                    completedWork++;
-                    totalWorkPomodoros++;
-                }
-                totalDuration += record.getPlannedDuration();
-            } else if (record.getType() == PomodoroType.SHORT_BREAK) {
-                totalShortBreaks++;
-                totalBreakTime += record.getPlannedDuration();
-                totalDuration += record.getPlannedDuration();
-            } else if (record.getType() == PomodoroType.LONG_BREAK) {
-                totalLongBreaks++;
-                totalBreakTime += record.getPlannedDuration();
-                totalDuration += record.getPlannedDuration();
+            if (null != record.getType()) switch (record.getType()) {
+                case WORK:
+                    totalWork++;
+                    totalWorkTime += record.getPlannedDuration();
+                    if (record.isCompleted()) {
+                        completedWork++;
+                        totalWorkPomodoros++;
+                    }   totalDuration += record.getPlannedDuration();
+                    break;
+                case SHORT_BREAK:
+                    totalShortBreaks++;
+                    totalBreakTime += record.getPlannedDuration();
+                    totalDuration += record.getPlannedDuration();
+                    break;
+                case LONG_BREAK:
+                    totalLongBreaks++;
+                    totalBreakTime += record.getPlannedDuration();
+                    totalDuration += record.getPlannedDuration();
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -89,13 +138,6 @@ public class Statistics {
         }
 
         this.calulationDate = LocalDateTime.now();
-    }
-
-    public double getProdutivityScore() {
-        // Score basado en pomodoros completados y tiempo efectivo
-        double baseScore = (totalWorkPomodoros * 10); // 10 puntos por pomodoro
-        double efficiencyBonus = getEfficiencyRate() * 0.5; // bonus por eficiencia
-        return Math.min(100, baseScore + efficiencyBonus);
     }
 
     public double getEfficiencyRate() {

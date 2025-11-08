@@ -1,0 +1,43 @@
+{
+  "sessionId": 1,
+  "sessionName": "ingles",
+  "loggedUser": {
+    "id": 1,
+    "name": "keiner",
+    "email": "",
+    "password": "",
+    "rol": "USER",
+    "banned": false
+  },
+  "startTime": "2025-11-07T18:50:41.1108451",
+  "endTime": "2025-11-07T18:50:41.1108451",
+  "currentSessionsRecords": [
+    {
+      "startTime": "2025-11-07T18:50:41.1108451",
+      "endTime": "2025-11-07T18:50:41.1108451",
+      "plannedDuration": 25,
+      "completed": false,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-07T18:50:41.1108451",
+      "endTime": "2025-11-07T18:50:41.1108451",
+      "plannedDuration": 25,
+      "completed": false,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-07T18:50:41.1108451",
+      "endTime": "2025-11-07T18:50:41.1108451",
+      "plannedDuration": 25,
+      "completed": false,
+      "type": "WORK"
+    }
+  ],
+  "settings": {
+    "workDuration": 25,
+    "shortBreakDuration": 5,
+    "longBreakDuration": 15,
+    "longBreakInterval": 4
+  }
+}

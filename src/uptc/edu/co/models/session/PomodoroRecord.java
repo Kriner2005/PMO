@@ -18,11 +18,12 @@ public class PomodoroRecord {
     private boolean completed; // ¿Se completó o se canceló?
     private PomodoroType type; // WORK, SHORT_BREAK, LONG_BREAK
 
-    public PomodoroRecord(PomodoroType type, LocalDateTime startTime, LocalDateTime endTime, boolean completed) {
+    public PomodoroRecord(PomodoroType type, LocalDateTime startTime, LocalDateTime endTime, boolean completed, int plannedDuration) {
         this.type = type;
         this.startTime = startTime;
         this.endTime = endTime;
         this.completed = completed;
+        this.plannedDuration = plannedDuration;
     }
 
     public LocalDateTime getStartTime() {

@@ -34,12 +34,13 @@ public class Session {
     }
 
     public Session(User user, String sessionName) {
-        
+
         this.loggedUser = user;
         this.sessionName = sessionName;
         this.startTime = LocalDateTime.now();
         this.currentSessionsRecords = new ArrayList<>();
         this.settings = new Settings(); // valores por defecto
+        taskList = new ArrayList<>();
     }
 
     public void initializeSession() {
@@ -56,7 +57,7 @@ public class Session {
         }
         this.currentSessionsRecords.add(record);
     }
-    
+
     public void addTask(String task) {
         taskList.add(task);
     }

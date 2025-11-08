@@ -11,7 +11,7 @@ import uptc.edu.co.models.timer.PomodoroTimer;
  *
  * @author alber
  */
-public class CotrollerTest {
+public class TestThread {
 
     public static void main(String[] args) throws InterruptedException {
         PomodoroTimer pomodoro = new PomodoroTimer(10); // 20 segundos

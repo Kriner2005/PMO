@@ -20,7 +20,7 @@ import uptc.edu.co.models.user.User;
  *
  * @author alber
  */
-public class NewClass {
+public class TestSession {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         User user = new User(2, "sara", "@gmail", "asd", Role.USER);
@@ -33,9 +33,8 @@ public class NewClass {
         config.loadPreset(SettingsPreset.CLASSIC);
         auxSession.initializeSession();
         auxSession.setSessionId(0);
-        Thread.sleep(60000);
         auxSession.finalizeSession();
-        auxSession.addPomodoroRecord(new PomodoroRecord(PomodoroType.WORK, auxSession.getStartTime(), auxSession.getEndTime(), false));
+        auxSession.addPomodoroRecord(new PomodoroRecord(PomodoroType.WORK, auxSession.getStartTime(), auxSession.getEndTime(), false, SettingsPreset.CLASSIC.workDuration));
         manager.saveSession(user.getId(), auxSession);
     }
 }

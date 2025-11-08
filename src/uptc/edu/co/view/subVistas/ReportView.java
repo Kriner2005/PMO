@@ -1,4 +1,4 @@
-package view.subVistas;
+package uptc.edu.co.view.subVistas;
 
 
 import java.awt.BorderLayout;
