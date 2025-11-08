@@ -1,7 +1,5 @@
 package uptc.edu.co.view;
 
-import com.sun.source.tree.Tree;
-import uptc.edu.co.utilities.CustomComponents;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -12,22 +10,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import uptc.edu.co.utilities.CargarFuente;
+import javax.swing.JProgressBar;
+import uptc.edu.co.utilities.CustomComponents;
 
 public class View extends javax.swing.JFrame {
-
-//    prueba 
-    private javax.swing.Timer timer;  // Timer
-    private int segundosRestantes = 1500;  // 25 minutos
-    private int tiempoTotal = 1500;
 
     public View() {
         initComponents();
         aplicarEstilos();
         configurarComponentes();
     }
-
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -156,11 +148,6 @@ public class View extends javax.swing.JFrame {
         pomodoroBtn.setBorderPainted(false);
         pomodoroBtn.setContentAreaFilled(false);
         pomodoroBtn.setFocusPainted(false);
-        pomodoroBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pomodoroBtnActionPerformed(evt);
-            }
-        });
 
         longBtn.setBackground(new java.awt.Color(60, 63, 65));
         longBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/sub_btn/long_Btn.png"))); // NOI18N
@@ -168,11 +155,6 @@ public class View extends javax.swing.JFrame {
         longBtn.setBorderPainted(false);
         longBtn.setContentAreaFilled(false);
         longBtn.setFocusPainted(false);
-        longBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                longBtnActionPerformed(evt);
-            }
-        });
 
         shortBtn1.setBackground(new java.awt.Color(60, 63, 65));
         shortBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/sub_btn/short_Btn.png"))); // NOI18N
@@ -180,11 +162,6 @@ public class View extends javax.swing.JFrame {
         shortBtn1.setBorderPainted(false);
         shortBtn1.setContentAreaFilled(false);
         shortBtn1.setFocusPainted(false);
-        shortBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shortBtn1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout navSubBtnLayout = new javax.swing.GroupLayout(navSubBtn);
         navSubBtn.setLayout(navSubBtnLayout);
@@ -251,22 +228,12 @@ public class View extends javax.swing.JFrame {
         btnReset.setBorderPainted(false);
         btnReset.setContentAreaFilled(false);
         btnReset.setFocusPainted(false);
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
-            }
-        });
 
         btnStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/laterales/start.png"))); // NOI18N
         btnStart.setToolTipText("");
         btnStart.setBorderPainted(false);
         btnStart.setContentAreaFilled(false);
         btnStart.setFocusPainted(false);
-        btnStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStartActionPerformed(evt);
-            }
-        });
 
         jLabelTiempo.setFont(new java.awt.Font("Source Sans Pro", 1, 92)); // NOI18N
         jLabelTiempo.setForeground(new java.awt.Color(255, 255, 255));
@@ -364,7 +331,7 @@ public class View extends javax.swing.JFrame {
         leftTareaLayout.setVerticalGroup(
             leftTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftTareaLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(titleTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -418,11 +385,6 @@ public class View extends javax.swing.JFrame {
         helpBtn.setBorderPainted(false);
         helpBtn.setContentAreaFilled(false);
         helpBtn.setFocusPainted(false);
-        helpBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                helpBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout mainLayout = new javax.swing.GroupLayout(main);
         main.setLayout(mainLayout);
@@ -473,180 +435,58 @@ public class View extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(main, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pomodoroBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pomodoroBtnActionPerformed
+//    get de los componentes
+    public JButton getBtnStart() {
+        return btnStart;
+    }
 
-        if (timer != null) {
-            timer.stop();
-        }
+    public JButton getBtnReset() {
+        return btnReset;
+    }
 
-        tiempoTotal = 1500;
-        segundosRestantes = 1500;
-        jLabelTiempo.setText("25:00");
-        jProgressBar.setValue(0);
+    public JButton getBtnPomodoro() {
+        return pomodoroBtn;
+    }
 
-        Color fondoPomodoro = new Color(205, 92, 92);
-        Color bordePomodoro = new Color(139, 0, 0);
+    public JButton getBtnShortBreak() {
+        return shortBtn1;
+    }
 
-        leftTarea.setBackground(new Color(194, 11, 11));
-        menuNav.setBackground(new Color(194, 11, 11));
-        rightCalendar.setBackground(new Color(194, 11, 11));
-        nav.setBackground(new Color(194, 11, 11));
+    public JButton getBtnLongBreak() {
+        return longBtn;
+    }
 
-        centerPanel.setBackground(fondoPomodoro);
-        CustomComponents.hacerPanelRedondeado(
-                centerPanel,
-                25,
-                fondoPomodoro,
-                bordePomodoro,
-                3
-        );
+    public JLabel getJLabelTiempo() {
+        return jLabelTiempo;
+    }
 
-        jProgressBar.setForeground(bordePomodoro);
+    public JProgressBar getJProgressBar() {
+        return jProgressBar;
+    }
 
-        centerPanel.revalidate();
-        centerPanel.repaint();
-        menuNav.repaint();
-        menuNav.revalidate();
-        leftTarea.repaint();
-        rightCalendar.repaint();
-        nav.revalidate();
-        nav.repaint();
-
-    }//GEN-LAST:event_pomodoroBtnActionPerformed
-
-    private void longBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_longBtnActionPerformed
-
-        if (timer != null) {
-            timer.stop();
-        }
-
-        tiempoTotal = 900;
-        segundosRestantes = 900;
-        jLabelTiempo.setText("15:00");
-        jProgressBar.setValue(0);
-
-        Color fondoLong = new Color(57, 112, 151);
-        Color bordeLong = new Color(37, 82, 121);
-
-        leftTarea.setBackground(fondoLong);
-        menuNav.setBackground(fondoLong);
-        rightCalendar.setBackground(fondoLong);
-        nav.setBackground(fondoLong);
-
-        centerPanel.setBackground(fondoLong);
-        CustomComponents.hacerPanelRedondeado(
-                centerPanel,
-                25,
-                fondoLong,
-                bordeLong,
-                3
-        );
-
-        jProgressBar.setForeground(bordeLong);
-
-        centerPanel.revalidate();
-        centerPanel.repaint();
-        menuNav.repaint();
-        nav.revalidate();
-        nav.repaint();
-        leftTarea.repaint();
-        rightCalendar.repaint();
-    }//GEN-LAST:event_longBtnActionPerformed
-
-    private void shortBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shortBtn1ActionPerformed
-        // Detener timer si está corriendo
-        if (timer != null) {
-            timer.stop();
-        }
-
-        // Configurar tiempo para Short Break (5 minutos)
-        tiempoTotal = 300;
-        segundosRestantes = 300;
-        jLabelTiempo.setText("05:00");
-        jProgressBar.setValue(0);
-
-        // Cambiar colores
-        Color fondoShort = new Color(52, 124, 129); // #347c81
-        Color bordeShort = new Color(32, 94, 99);   // Un poco más oscuro
-
-        // Cambiar todos los paneles al color verde
-        nav.setBackground(fondoShort);
-        leftTarea.setBackground(fondoShort);
-        menuNav.setBackground(fondoShort);
-        rightCalendar.setBackground(fondoShort); // Corregí el nombre
-
-        // Aplicar borde redondeado solo al centerPanel (UNA SOLA VEZ)
-        centerPanel.setBackground(fondoShort);
-        CustomComponents.hacerPanelRedondeado(
-                centerPanel,
-                25,
-                fondoShort,
-                bordeShort,
-                3
-        );
-
-        // Forzar actualización visual
-        centerPanel.revalidate();
-        centerPanel.repaint();
-        nav.revalidate();
-        nav.repaint();
-        menuNav.repaint();
-        leftTarea.repaint();
-        rightCalendar.repaint();
-
-        // Actualizar color de la barra de progreso
-        jProgressBar.setForeground(bordeShort);
-    }//GEN-LAST:event_shortBtn1ActionPerformed
-
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        if (timer != null) {
-            timer.stop();
-        }
-        segundosRestantes = tiempoTotal;
-        jLabelTiempo.setText("25:00");
-        jProgressBar.setValue(0);
-    }//GEN-LAST:event_btnResetActionPerformed
-
-    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        if (timer != null && timer.isRunning()) {
-            // Si está corriendo, pausar
-            timer.stop();
-
-        } else {
-            // Iniciar o reanudar
-            iniciarTimer();
-
-        }
-    }//GEN-LAST:event_btnStartActionPerformed
-
-    private void helpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpBtnActionPerformed
-
-    }//GEN-LAST:event_helpBtnActionPerformed
+    public JPanel getCenterPanel() {
+        return centerPanel;
+    }
 
 //    notificando de abrir la ventana 
     public JButton getBtnHelp() {
         return helpBtn;
     }
-
-    
+// Botón para abrir TaskPanel
 
     public JPanel getBtnTasks() {
-        return leftTarea; // Botón para abrir TaskPanel
+        return leftTarea;
     }
 
     public JButton getBtnLogin() {
@@ -660,11 +500,63 @@ public class View extends javax.swing.JFrame {
     public JButton getBtnSettings() {
         return settingBtn;
     }
-    
+
     public JPanel getBtnCalendar() {
         return rightCalendar; // Botón para abrir TaskPanel
     }
-    
+
+    public void actualizarTiempo(String tiempo) {
+        jLabelTiempo.setText(tiempo);
+    }
+
+    public void actualizarProgreso(int porcentaje) {
+        jProgressBar.setValue(porcentaje);
+    }
+
+//    este metodo hay que verlo con detalle 
+    public void cambiarTextoBotonStart(String texto) {
+        btnStart.setText(texto);
+    }
+
+//    Cambiar el tema de la pantalla principal 
+    public void cambiarTemaPomodoro() {
+        Color fondoPomodoro = new Color(205, 92, 92);
+        Color bordePomodoro = new Color(139, 0, 0);
+        aplicarColores(fondoPomodoro, bordePomodoro);
+    }
+
+    public void cambiarTemaShortBreak() {
+        Color fondoShort = new Color(52, 124, 129);
+        Color bordeShort = new Color(32, 94, 99);
+        aplicarColores(fondoShort, bordeShort);
+    }
+
+    public void cambiarTemaLongBreak() {
+        Color fondoLong = new Color(57, 112, 151);
+        Color bordeLong = new Color(37, 82, 121);
+        aplicarColores(fondoLong, bordeLong);
+    }
+
+    //  método privado auxiliar
+    private void aplicarColores(Color fondo, Color borde) {
+        leftTarea.setBackground(fondo);
+        menuNav.setBackground(fondo);
+        rightCalendar.setBackground(fondo);
+        nav.setBackground(fondo);
+
+        centerPanel.setBackground(fondo);
+        CustomComponents.hacerPanelRedondeado(centerPanel, 25, fondo, borde, 3);
+        jProgressBar.setForeground(borde);
+
+        // Forzar actualización visual
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        menuNav.repaint();
+        nav.revalidate();
+        nav.repaint();
+        leftTarea.repaint();
+        rightCalendar.repaint();
+    }
 
     private void aplicarEstilos() {
         CustomComponents.hacerPanelRedondeado(
@@ -674,7 +566,6 @@ public class View extends javax.swing.JFrame {
                 new Color(139, 0, 0), // borde
                 3 // grosor
         );
-
         CustomComponents.hacerPanelRedondeado(
                 textPanelInt, // panel
                 25, // radio
@@ -682,36 +573,6 @@ public class View extends javax.swing.JFrame {
                 new Color(255, 255, 255), // borde
                 3 // grosor
         );
-
-    }
-
-    private void iniciarTimer() {
-        if (timer == null) {
-            timer = new javax.swing.Timer(1000, e -> {
-                segundosRestantes--;
-
-                // Actualizar el label del tiempo
-                int minutos = segundosRestantes / 60;
-                int segundos = segundosRestantes % 60;
-                jLabelTiempo.setText(String.format("%02d:%02d", minutos, segundos));
-
-                // Actualizar la barra de progreso
-                int progreso = (int) (((tiempoTotal - segundosRestantes) / (double) tiempoTotal) * 100);
-                jProgressBar.setValue(progreso);
-
-                // Cuando llegue a 0
-                if (segundosRestantes <= 0) {
-                    timer.stop();
-                    // Aquí puedes poner un sonido o notificación
-                    javax.swing.JOptionPane.showMessageDialog(this, "¡Pomodoro completado!");
-                    segundosRestantes = tiempoTotal;
-                    jLabelTiempo.setText("25:00");
-
-                    jProgressBar.setValue(0);
-                }
-            });
-        }
-        timer.start();
     }
 
     private void configurarComponentes() {
@@ -732,6 +593,54 @@ public class View extends javax.swing.JFrame {
         jProgressBar.setBorderPainted(false); // Sin borde
     }
 
+    public void updateTimeLabel(String tiempo) {
+        jLabelTiempo.setText(tiempo);
+    }
+
+//Actualiza el valor de la barra de progreso
+    public void updateProgressBar(int porcentaje) {
+        jProgressBar.setValue(porcentaje);
+    }
+
+//Cambia el ícono del botón Start entre play y pause
+    public void updateStartButtonIcon(boolean enEjecucion) {
+        if (enEjecucion) {
+            // Cuando está ejecutándose, mostrar ícono de PAUSA
+            btnStart.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/uptc/edu/co/resources/images/laterales/pause.png")
+            ));
+        } else {
+            // Cuando está pausado/detenido, mostrar ícono de PLAY
+            btnStart.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/uptc/edu/co/resources/images/laterales/start.png")
+            ));
+        }
+    }
+
+//Actualiza los colores de los paneles principales
+    public void updatePanelColors(Color color) {
+        menuNav.setBackground(color);
+        leftTarea.setBackground(color);
+        rightCalendar.setBackground(color);
+        nav.setBackground(color);
+    }
+
+//Actualiza el color de la barra de progreso
+    public void updateProgressBarColor(Color color) {
+        jProgressBar.setForeground(color);
+    }
+
+//Fuerza el repintado de todos los componentes
+    public void repaintComponents() {
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        menuNav.repaint();
+        menuNav.revalidate();
+        nav.revalidate();
+        nav.repaint();
+        leftTarea.repaint();
+        rightCalendar.repaint();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReset;
@@ -766,9 +675,5 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel titleTask1;
     private javax.swing.JButton userBtn;
     // End of variables declaration//GEN-END:variables
-public static void main(String[] args) {
-        View io = new View();
-        io.setVisible(true);
-    }
-    
+
 }

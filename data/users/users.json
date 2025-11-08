@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "keiner",
-    "email": "",
+    "email": "a",
     "password": "",
     "rol": "USER",
     "banned": false
@@ -10,16 +10,8 @@
   {
     "id": 2,
     "name": "sara",
-    "email": "",
-    "password": "",
-    "rol": "USER",
-    "banned": false
-  },
-  {
-    "id": 3,
-    "name": "rosa",
-    "email": "",
-    "password": "",
+    "email": "alber@gmail.com",
+    "password": "123",
     "rol": "USER",
     "banned": false
   }

@@ -7,9 +7,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import uptc.edu.co.models.session.Statistics;
 import uptc.edu.co.utilities.Utilities;
 
 public class ReportView extends JFrame {
@@ -54,9 +56,5 @@ public class ReportView extends JFrame {
         
         add(cardPanel, BorderLayout.CENTER);
         
-    }
-    public static void main(String[] args) {
-        ReportView report = new ReportView(null, null, null);
-        report.setVisible(true);
     }
 }

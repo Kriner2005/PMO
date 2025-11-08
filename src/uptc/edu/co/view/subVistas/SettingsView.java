@@ -36,13 +36,16 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import uptc.edu.co.utilities.Utilities;
 
-public class Settings extends JFrame {
+public class SettingsView extends JFrame {
 
     private JButton selectedButton, configBtn;
     private JPanel sidebar;
     private ActionListener listener;
+    private JTextField pomodoroField;
+    private JTextField shortBreakField;
+    private JTextField longBreakField;
 
-    public Settings(ActionListener listener) {
+    public SettingsView(ActionListener listener) {
         this.listener = listener;
         setTitle("Settings Panel");
         setSize(1280, 800);
@@ -60,9 +63,9 @@ public class Settings extends JFrame {
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JTextField pomodoroField = CustomComponents.createRoundedTextField(10, 13, "25");
-        JTextField shortBreakField = CustomComponents.createRoundedTextField(10, 13, "5");
-        JTextField longBreakField = CustomComponents.createRoundedTextField(15, 13, "15");
+        pomodoroField = CustomComponents.createRoundedTextField(10, 13, "25");
+        shortBreakField = CustomComponents.createRoundedTextField(10, 13, "5");
+        longBreakField = CustomComponents.createRoundedTextField(15, 13, "15");
 
         pomodoroField.addActionListener(listener);
         pomodoroField.setActionCommand("SET_POMODORO");
@@ -362,10 +365,10 @@ public class Settings extends JFrame {
 
         File file2 = new File("src/uptc/edu/co/resources/images/paulas/house.png");
         ImageIcon home = new ImageIcon(file2.getAbsolutePath());
-        
+
         File file3 = new File("src/uptc/edu/co/resources/images/paulas/statistics.png");
         ImageIcon stats = new ImageIcon(file3.getAbsolutePath());
-        
+
         File file4 = new File("src/uptc/edu/co/resources/images/paulas/configuration.png");
         ImageIcon config = new ImageIcon(file4.getAbsolutePath());
 
@@ -386,8 +389,34 @@ public class Settings extends JFrame {
         add(sidebar, BorderLayout.WEST);
     }
 
+    public String getPomodoroField() {
+        return pomodoroField.getText();
+    }
+
+    public void setPomodoroField(String pomodoroField) {
+        this.pomodoroField.setText(pomodoroField);
+    }
+
+    public String getShortBreakField() {
+        return shortBreakField.getText();
+    }
+
+    public void setShortBreakField(String shortBreakField) {
+        this.shortBreakField.setText(shortBreakField); ;
+    }
+
+    public String getLongBreakField() {
+        return longBreakField.getText();
+    }
+
+    public void setLongBreakField(String longBreakField) {
+        this.longBreakField.setText(longBreakField);
+    }
+    
+    
+
     public static void main(String[] args) {
-        Settings config = new Settings(null);
+        SettingsView config = new SettingsView(null);
         config.setVisible(true);
     }
 }

@@ -13,21 +13,18 @@ public class Settings {
     private int workDuration; // en minutos
     private int shortBreakDuration; // en minutos
     private int longBreakDuration; // en minutos
-    private int longBreakInterval; // cada cuántos pomodoros va un break largo
 
     public Settings() {
         this.workDuration = 25;
         this.shortBreakDuration = 5;
         this.longBreakDuration = 15;
-        this.longBreakInterval = 4;
     }
 
     // Constructor con valores por defecto
-    public Settings(int workDuration, int shortBreak, int longBreak, int longBreakInterval) {
+    public Settings(int workDuration, int shortBreak, int longBreak) {
         this.workDuration = workDuration;
         this.shortBreakDuration = shortBreak;
         this.longBreakDuration = longBreak;
-        this.longBreakInterval = longBreakInterval;
     }
 
     // ---------------- MÉTODOS PRINCIPALES ----------------
@@ -36,7 +33,6 @@ public class Settings {
         this.workDuration = preset.getWorkDuration();
         this.shortBreakDuration = preset.getShortBreak();
         this.longBreakDuration = preset.getLongBreak();
-        this.longBreakInterval = preset.getLongBreakInterval();
     }
 
     public void selectPreset(int value) {
@@ -52,15 +48,14 @@ public class Settings {
         }
     }
 
-    public void customSettings(int workDuration, int shortBrakDuration, int longBreakDuration, int longBreakInterval) {
-        saveSettings(new Settings(workDuration, shortBreakDuration, longBreakDuration, longBreakInterval));
+    public void customSettings(int workDuration, int shortBrakDuration, int longBreakDuration) {
+        saveSettings(new Settings(workDuration, shortBreakDuration, longBreakDuration));
     }
 
     public void saveSettings(Settings newSettings) {
         this.workDuration = newSettings.getWorkDuration();
         this.shortBreakDuration = newSettings.getShortBreakDuration();
         this.longBreakDuration = newSettings.getLongBreakDuration();
-        this.longBreakInterval = newSettings.getLongBreakInterval();
     }
 
     public int getDurationForType(PomodoroType type) {
@@ -87,10 +82,6 @@ public class Settings {
         return longBreakDuration;
     }
 
-    public int getLongBreakInterval() {
-        return longBreakInterval;
-    }
-
     public void setWork(int workDuration) {
         this.workDuration = workDuration;
     }
@@ -103,7 +94,4 @@ public class Settings {
         this.longBreakDuration = longBreakDuration;
     }
 
-    public void setLongBreakInterval(int longBreakInterval) {
-        this.longBreakInterval = longBreakInterval;
-    }
 }

@@ -85,16 +85,18 @@ public class PersistenceManager {
     }
 
     // ------------------ SESSION ------------------
-    public boolean saveSession(int userId, Session session) {
-        try {
-            String filePath = Utilities.HISTORIES + "history_" + userId + ".json";
-            session.setSessionId(userId);
-            return saveToFile(filePath, session);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+   public boolean saveSession(int userId, Session session) {
+    try {
+        String filePath = Utilities.HISTORIES + "history_" + userId + ".json";
+        session.setSessionId(userId);
+        // 🔹 Sobrescribe directamente porque ya cargaste y actualizaste en memoria
+        return saveToFile(filePath, session);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
 
     public List<Session> loadAllSessions() {
         List<Session> sessions = new ArrayList<>();
@@ -125,14 +127,30 @@ public class PersistenceManager {
 
     public Session loadSession(int userId) {
         try {
-            String filePath = Utilities.HISTORIES + "session_" + userId + ".json";
-            String json = readFromFile(filePath);
+            String filePath = Utilities.HISTORIES + "history_" + userId + ".json";
+            File file = new File(filePath);
 
-            if (json == null || json.trim().isEmpty()) {
-                return new Session(); // si no existe, crear una vacía
+            if (!file.exists()) {
+                // Si no existe, crear sesión vacía
+                return new Session();
             }
 
-            return gson.fromJson(json, Session.class);
+            try (FileReader reader = new FileReader(file)) {
+                Session session = gson.fromJson(reader, Session.class);
+                if (session == null) {
+                    session = new Session();
+                }
+
+                // Asegurar que las listas no sean nulas
+                if (session.getHistoryPomodoros() == null) {
+                    session.setHistory(new ArrayList<>());
+                }
+                if (session.getTaskList() == null) {
+                    session.setTaskList(new ArrayList<>());
+                }
+
+                return session;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,86 +4,122 @@
  */
 package uptc.edu.co.models.timer;
 
-import java.util.List;
+import java.util.ArrayList;
 import uptc.edu.co.models.session.TimerListener;
 
 /**
  *
  * @author alber
  */
+
+//la logica es que se programa con un tiempo en el constructor 
+//cuenta en segundo plano
+//te avisa cuanto queda en la vista con el escucha
+//se puede pausar, reaundar y apagar 
 public class TimerThread extends Thread {
 
+//    se encargara de contar a la par que el programa esta en ejecucion
+//    cuenta al hilo y asi puede continuar en segundo plano
+//    atributos 
+//    conexion al timer al que pertenece el hilo 
     private Timer timer;
-    private volatile boolean running;
-    private volatile boolean paused;
-    private int totalSeconds;
-    private int remainingSeconds;
-    private List<TimerListener> listeners;
 
+//estado del hilo 
+    private volatile boolean running;
+
+    private volatile boolean paused;
+
+//Tiempo total en segundos 
+    private int totalSeconds;
+
+//cuanto queda para mostrar en la vista 
+    private int remainingSeconds;
+
+//lista de escuchas 
+    private ArrayList<TimerListener> listeners;
+//    constructor 
+
+//    cuanto debe contar y de quien es el hilo 
     public TimerThread(int totalSeconds, Timer timer) {
         this.totalSeconds = totalSeconds;
-        this.remainingSeconds = totalSeconds;
+        this.remainingSeconds = totalSeconds; // Empieza con el tiempo completo
         this.timer = timer;
         this.running = false;
         this.paused = false;
     }
 
+//    FUNCIONAMIENTO HILO 
+//    RESTAR TIEMPO, AVISAR A LA VISTA HASTA QUE LLEGUE A 0
+    @Override
     public void run() {
+        // Empezamos
         running = true;
+
         try {
+            // CICLO PRINCIPAL: mientras este corriendo y queden segundos
             while (running && remainingSeconds > 0) {
+
+                // Si está pausado, esperar hasta que se reanude
                 synchronized (this) {
                     while (paused && running) {
-                        wait(); // se queda esperando hasta resumeTimer()
+                        // Esperar hasta que le den a resumeTimer()
+                        wait();
                     }
                 }
 
-                Thread.sleep(1000);
+                // Esperar 1 segundo
+                Thread.sleep(1000); // 1000 milisegundos = 1 segundo
+
+                // Restar 1 segundo
                 remainingSeconds--;
 
-                // notificar ticks
-                if (listeners != null) {
-                    for (TimerListener l : listeners) {
-                        l.onTick(remainingSeconds);
-                    }
-                }
+                // Notificar a los observadores (TICK)
+                notifyTick();
             }
 
+            // Si llegamos a 0, notificar
             if (remainingSeconds <= 0 && running) {
-                if (listeners != null) {
-                    for (TimerListener l : listeners) {
-                        l.onFinish();
-                    }
-                }
+                notifyFinish();
             }
+
         } catch (InterruptedException ex) {
-            // interrumpido (stop)
+            // Si alguien interrumpe el hilo, salir
         } finally {
+            // Ya terminamos
             running = false;
         }
     }
 
+//    Control del hilo 
+//    PAUSAR el conteo
+//    El hilo se quedará dormido en el wait() del run()
     public synchronized void pauseTimer() {
         paused = true;
     }
 
+//    REANUDAR el conteo
+//    Despierta al hilo que estaba esperando en wait()
     public synchronized void resumeTimer() {
         paused = false;
-        notifyAll(); // despertar el thread si estaba esperando
+        notifyAll(); // Despertar al hilo
     }
 
+//    DETENER completamente el hilo
+//    Interrumpe el sleep() del run()
     public void stopTimer() {
         running = false;
-        interrupt(); // interrumpir el thread
+        // Despertar al hilo para que salga del run()
+        interrupt();
     }
 
-    private void notifyTick() {
-        // Si el timer implementa TimerListener, notificar directamente
-        if (timer instanceof TimerListener) {
-            ((TimerListener) timer).onTick(remainingSeconds);
-        }
+//REINICIAR el contador
+    public void resetTimer() {
+        remainingSeconds = totalSeconds;
+    }
 
-        // Si hay listeners externos, notificarlos también
+//NOTIFICAR A LA VISTA 
+//Notificar a todos los observadores: "pasó un segundo"
+    private void notifyTick() {
         if (listeners != null) {
             for (TimerListener listener : listeners) {
                 listener.onTick(remainingSeconds);
@@ -91,13 +127,8 @@ public class TimerThread extends Thread {
         }
     }
 
+//    TERMINO 
     private void notifyFinish() {
-        // Si el timer implementa TimerListener, notificar directamente
-        if (timer instanceof TimerListener) {
-            ((TimerListener) timer).onFinish();
-        }
-
-        // Si hay listeners externos, notificarlos también
         if (listeners != null) {
             for (TimerListener listener : listeners) {
                 listener.onFinish();
@@ -105,14 +136,8 @@ public class TimerThread extends Thread {
         }
     }
 
-    // Setter para listeners externos
-    public void setListeners(List<TimerListener> listeners) {
+    public void setListeners(ArrayList<TimerListener> listeners) {
         this.listeners = listeners;
-    }
-
-    // Método para resetear el timer
-    public void resetTimer() {
-        remainingSeconds = totalSeconds;
     }
 
     public int getRemainingSeconds() {
@@ -130,5 +155,4 @@ public class TimerThread extends Thread {
     public int getTotalSeconds() {
         return totalSeconds;
     }
-
 }

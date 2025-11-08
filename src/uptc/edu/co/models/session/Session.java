@@ -137,4 +137,8 @@ public class Session {
     public List<String> getTaskList() {
         return taskList;
     }
+
+    public void setTaskList(List<String> taskList) {
+        this.taskList = taskList;
+    }
 }
