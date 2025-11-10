@@ -66,9 +66,4 @@ public class ReportController implements ActionListener {
     private void loadStatistics() {
     
     }
-    
-    public static void main(String[] args) {
-        new ReportController();
-    }
-
 }

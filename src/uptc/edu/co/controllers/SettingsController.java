@@ -98,8 +98,4 @@ public class SettingsController implements ActionListener {
         System.out.println("Tiempos actualizados correctamente");
     }
 
-    public static void main(String[] args) {
-        SettingsController c = new SettingsController();
-    }
-
 }

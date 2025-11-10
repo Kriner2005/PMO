@@ -121,9 +121,4 @@ public class AuthController implements ActionListener {
             register.showMessage("Este usuario ya existe.");
         }
     }
-
-    public static void main(String[] args) {
-        AuthController u = new AuthController();
-
-    }
 }

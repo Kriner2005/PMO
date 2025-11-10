@@ -29,10 +29,8 @@ public class MainController implements ActionListener {
         // Crear el TimerController y su vista
         timerController = new TimerController();
         timerController.arranque();
-
         // Obtener la vista principal desde el TimerController
         mainView = timerController.getVista();
-
         // Agregar listeners a los botones globales (menu superior)
         configurarEventosPrincipales();
 
@@ -43,6 +41,7 @@ public class MainController implements ActionListener {
         mainView.getUserBtn().addActionListener(this);
         mainView.getReportBtn().addActionListener(this);
         mainView.getSettingBtn().addActionListener(this);
+
         mainView.getHelpBtn().addActionListener(this);
     }
 
@@ -55,6 +54,10 @@ public class MainController implements ActionListener {
 
             }
             case "SHOW_STATISTICS" -> {
+
+            }
+
+            case "SHOW_HELP" -> {
 
             }
         }
@@ -78,7 +81,7 @@ public class MainController implements ActionListener {
 
     private void mostrarAyuda() {
         System.out.println("→ Mostrar ayuda o FAQ");
-        // Podría ser un modal con información
+        HelpController controller = new HelpController();
     }
 
 }

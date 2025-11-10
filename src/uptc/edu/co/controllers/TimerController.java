@@ -1,4 +1,4 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -24,7 +24,7 @@ public class TimerController {
     private View vista;
     private Timer timerActual;
     private int tiempoTotal;
-    private Settings settings;   
+    private Settings settings;
     // Los tres modos del pomodoro
     private PomodoroTimer pomodoroTimer;
     private PomodoroTimer shortBreakTimer;
@@ -81,6 +81,7 @@ public class TimerController {
         vista.getBtnPomodoro().addActionListener(e -> cambiarAPomodoro());
         vista.getBtnShortBreak().addActionListener(e -> cambiarAShortBreak());
         vista.getBtnLongBreak().addActionListener(e -> cambiarALongBreak());
+        vista.getBtnHelp().setActionCommand("SHOW_HELP");
     }
 
 //    Configura el listener para recibir actualizaciones del timer
@@ -280,8 +281,5 @@ public class TimerController {
     public Timer getTimerActual() {
         return timerActual;
     }
-    public static void main(String[] args) {
-        TimerController timer = new TimerController();
-        timer.arranque();
-    }
+
 }

@@ -63,8 +63,5 @@ public class TaskController implements ActionListener {
     private void markTask(ActionEvent e) {
          taskPanel.markTaskDone((JButton)e.getSource());
     }
-    
-    public static void main(String[] args) {
-        new TaskController(new Session());
-    }
+
 }
