@@ -19,7 +19,6 @@ public class SettingsController implements ActionListener {
     public SettingsController() {
 
         this.view = new SettingsView(this);
-        view.setVisible(true);
         settingsTimer = new Settings();
         session = new Session();
 
@@ -31,20 +30,23 @@ public class SettingsController implements ActionListener {
         switch (command) {
             case "CHANGE_LANGUAGE" -> {
             }
-            case "SET_POMODORO", "SET_SHORT_BREAK", "SET_LONG_BREAK" -> changeTime();
-            case "RESET_BUTTON" -> reset();
+            case "SET_POMODORO", "SET_SHORT_BREAK", "SET_LONG_BREAK" ->
+                changeTime();
+            case "RESET_BUTTON" ->
+                reset();
             case "HOME_BUTTON_SETTINGS" -> {
             }
             case "STATISTICS_BUTTON_SETTINGS" -> {
             }
             case "CONFIGURATION_BUTTON_SETTINGS" -> {
             }
-            default -> throw new AssertionError();
+            default ->
+                throw new AssertionError();
         }
         // changeLanguage(settings.getLanguageID());
         //ir a ventana principal
         //ir a estadísticas
-        
+
     }
 
     public void reset() {
@@ -53,7 +55,10 @@ public class SettingsController implements ActionListener {
         view.setShortBreakField("5");
         view.setLongBreakField("15");
 
-        settingsTimer.customSettings(25, 5, 15);
+        settingsTimer.setWork(25);
+        settingsTimer.setShortBreak(5);
+        settingsTimer.setLongBreak(15);
+
         session.setSettings(settingsTimer);
 
     }
@@ -92,10 +97,16 @@ public class SettingsController implements ActionListener {
             view.setLongBreakField("15");
         }
 
-        settingsTimer.customSettings(pomodoro, shortBreak, longBreak);
+        settingsTimer.setWork(pomodoro);
+        settingsTimer.setShortBreak(shortBreak);
+        settingsTimer.setLongBreak(longBreak);
         session.setSettings(settingsTimer);
 
         System.out.println("Tiempos actualizados correctamente");
     }
 
+    public SettingsView getView() {
+        return view;
+    }
+    
 }

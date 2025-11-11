@@ -2,96 +2,81 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package uptc.edu.co.models.session;
 
 /**
  *
  * @author alber
  */
+// GUARDA EN MINUTOS (lo que el usuario entiende)
 public class Settings {
-
-    private int workDuration; // en minutos
-    private int shortBreakDuration; // en minutos
-    private int longBreakDuration; // en minutos
-
+    
+// GUARDA EN MINUTOS (lo que el usuario entiende)
+    private int workDuration;        // 25 minutos
+    private int shortBreakDuration;  // 5 minutos
+    private int longBreakDuration;   // 15 minutos
+    
     public Settings() {
         this.workDuration = 25;
         this.shortBreakDuration = 5;
         this.longBreakDuration = 15;
     }
-
-    // Constructor con valores por defecto
+    
     public Settings(int workDuration, int shortBreak, int longBreak) {
         this.workDuration = workDuration;
         this.shortBreakDuration = shortBreak;
         this.longBreakDuration = longBreak;
     }
-
-    // ---------------- MÉTODOS PRINCIPALES ----------------
-    // Cargar un preset
-    public void loadPreset(SettingsPreset preset) {
-        this.workDuration = preset.getWorkDuration();
-        this.shortBreakDuration = preset.getShortBreak();
-        this.longBreakDuration = preset.getLongBreak();
+    
+    // obtiene y convierte 
+    public int getWorkDurationInSeconds() {
+        return workDuration * 60;
     }
-
-    public void selectPreset(int value) {
-        switch (value) {
-            case 1 ->
-                loadPreset(SettingsPreset.CLASSIC);
-            case 2 ->
-                loadPreset(SettingsPreset.SHORT);
-            case 3 ->
-                loadPreset(SettingsPreset.LONG);
-            default ->
-                throw new AssertionError();
-        }
+    
+    public int getShortBreakDurationInSeconds() {
+        return shortBreakDuration * 60;
     }
-
-    public void customSettings(int workDuration, int shortBrakDuration, int longBreakDuration) {
-        saveSettings(new Settings(workDuration, shortBreakDuration, longBreakDuration));
+    
+    public int getLongBreakDurationInSeconds() {
+        return longBreakDuration * 60;
     }
-
-    public void saveSettings(Settings newSettings) {
-        this.workDuration = newSettings.getWorkDuration();
-        this.shortBreakDuration = newSettings.getShortBreakDuration();
-        this.longBreakDuration = newSettings.getLongBreakDuration();
-    }
-
-    public int getDurationForType(PomodoroType type) {
-        return switch (type) {
-            case WORK ->
-                workDuration;
-            case SHORT_BREAK ->
-                shortBreakDuration;
-            case LONG_BREAK ->
-                longBreakDuration;
-        };
-    }
-
-    // ---------------- GETTERS & SETTERS ----------------
+    
     public int getWorkDuration() {
         return workDuration;
     }
-
+    
     public int getShortBreakDuration() {
         return shortBreakDuration;
     }
-
+    
     public int getLongBreakDuration() {
         return longBreakDuration;
     }
-
-    public void setWork(int workDuration) {
-        this.workDuration = workDuration;
+    
+    // Setters con validación
+    public void setWork(int minutos) {
+        if (minutos > 0 && minutos <= 120) {
+            this.workDuration = minutos;
+        }
     }
-
-    public void setShortBreak(int shortBreakDuration) {
-        this.shortBreakDuration = shortBreakDuration;
+    
+    public void setShortBreak(int minutos) {
+        if (minutos > 0 && minutos <= 60) {
+            this.shortBreakDuration = minutos;
+        }
     }
-
-    public void setLongBreak(int longBreakDuration) {
-        this.longBreakDuration = longBreakDuration;
+    
+    public void setLongBreak(int minutos) {
+        if (minutos > 0 && minutos <= 120) {
+            this.longBreakDuration = minutos;
+        }
     }
-
+    
+    // Verificar si es configuración por defecto
+    public boolean esConfiguracionPorDefecto() {
+        return workDuration == 25 
+            && shortBreakDuration == 5
+            && longBreakDuration == 15;
+    }
 }

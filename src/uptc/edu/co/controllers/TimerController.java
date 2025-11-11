@@ -19,12 +19,12 @@ import uptc.edu.co.view.View;
  * @author alber
  */
 public class TimerController {
-    // Conexión vista y modelo 
 
-    private View vista;
+    // Conexión vista y modelo 
+    private final View view;
     private Timer timerActual;
     private int tiempoTotal;
-    private Settings settings;
+
     // Los tres modos del pomodoro
     private PomodoroTimer pomodoroTimer;
     private PomodoroTimer shortBreakTimer;
@@ -35,26 +35,86 @@ public class TimerController {
         POMODORO, SHORT_BREAK, LONG_BREAK
     }
 
+    private final Settings setting;
     private TipoTimer tipoActual;
 
 //    Constructor: inicializa los timers
-    public TimerController() {
-        // Crear los tres tipos de timer
-        pomodoroTimer = new PomodoroTimer(1500);      // 25 minutos
-        shortBreakTimer = new PomodoroTimer(300);        // 5 minutos
-        longBreakTimer = new PomodoroTimer(900);         // 15 minutos
+    public TimerController(View view) {
+        this.view = view;
+//      valores predeterminados 
+        setting = new Settings();
+
+//      crear un timer con esas configuraciones establecidas en configuraciones
+        // Se lee de settings y se convierte
+        // Crear los tres tipos de timer  
+        // 25 minutos
+        pomodoroTimer = new PomodoroTimer(setting.getWorkDurationInSeconds());
+        // 5 minutos
+        shortBreakTimer = new PomodoroTimer(setting.getShortBreakDurationInSeconds());
+        // 15 minutos
+        longBreakTimer = new PomodoroTimer(setting.getLongBreakDurationInSeconds());
 
         // Por defecto, empezamos con Pomodoro
         timerActual = pomodoroTimer;
         tipoActual = TipoTimer.POMODORO;
-        tiempoTotal = 1500;
+    }
+
+//    aplicar las nuevas configuraciones 
+    public void aplicarNuevasConfigs(int workMinuto, int shortMinuto, int longMinuto) {
+
+        // Detener timer actual
+        if (timerActual.isRunning()) {
+            timerActual.stop();
+        }
+
+        // Actualizar SettingsM (en MINUTOS)
+        setting.setWork(workMinuto);
+        setting.setShortBreak(shortMinuto);
+        setting.setLongBreak(longMinuto);
+
+        // Recrear timers (conversión a SEGUNDOS aquí)
+        pomodoroTimer = new PomodoroTimer(setting.getWorkDurationInSeconds());
+        shortBreakTimer = new PomodoroTimer(setting.getShortBreakDurationInSeconds());
+        longBreakTimer = new PomodoroTimer(setting.getLongBreakDurationInSeconds());
+
+        // Reconectar listeners
+        configurarListenerTimer();
+
+        // Actualizar el timer actual según el modo
+        switch (tipoActual) {
+            case POMODORO:
+                timerActual = pomodoroTimer;
+                tiempoTotal = setting.getWorkDurationInSeconds();
+                break;
+            case SHORT_BREAK:
+                timerActual = shortBreakTimer;
+                tiempoTotal = setting.getShortBreakDurationInSeconds();
+                break;
+            case LONG_BREAK:
+                timerActual = longBreakTimer;
+                tiempoTotal = setting.getLongBreakDurationInSeconds();
+                break;
+        }
+
+        // Actualizar vista
+        actualizarTiempoEnVista(tiempoTotal);
+        view.updateProgressBar(0);
+        cambiarIconoStart(false);
+
+        // Mensaje de confirmación
+        String mensaje = setting.esConfiguracionPorDefecto()
+                ? "Configuración estándar de Pomodoro aplicada"
+                : "Configuración personalizada aplicada";
+
+        javax.swing.JOptionPane.showMessageDialog(view,
+                mensaje,
+                "Configuración",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
 //    Método principal que arranca la aplicación
     public void arranque() {
-
-        vista = new View();
-
         // Configurar listeners de la vista
         configurarEventosVista();
 
@@ -63,25 +123,21 @@ public class TimerController {
 
         // Aplicar estilos iniciales
         aplicarEstilosPomodoro();
-
-        // Centrar y mostrar ventana
-        vista.setLocationRelativeTo(null);
-        vista.setVisible(true);
     }
 
 //    Configura los eventos de los botones de la vista
     private void configurarEventosVista() {
         // Botón Start/Pause
-        vista.getBtnStart().addActionListener(e -> accionStartPause());
+        view.getBtnStart().addActionListener(e -> accionStartPause());
 
         // Botón Reset
-        vista.getBtnReset().addActionListener(e -> accionReset());
+        view.getBtnReset().addActionListener(e -> accionReset());
 
 //         Botones de cambio de modo
-        vista.getBtnPomodoro().addActionListener(e -> cambiarAPomodoro());
-        vista.getBtnShortBreak().addActionListener(e -> cambiarAShortBreak());
-        vista.getBtnLongBreak().addActionListener(e -> cambiarALongBreak());
-        vista.getBtnHelp().setActionCommand("SHOW_HELP");
+        view.getBtnPomodoro().addActionListener(e -> cambiarAPomodoro());
+        view.getBtnShortBreak().addActionListener(e -> cambiarAShortBreak());
+        view.getBtnLongBreak().addActionListener(e -> cambiarALongBreak());
+
     }
 
 //    Configura el listener para recibir actualizaciones del timer
@@ -127,7 +183,7 @@ public class TimerController {
         timerActual.stop();
         timerActual.reset();
         actualizarTiempoEnVista(tiempoTotal);
-        vista.updateProgressBar(0);
+        view.updateProgressBar(0);
         cambiarIconoStart(false);
     }
 
@@ -136,9 +192,9 @@ public class TimerController {
         detenerTimerActual();
         timerActual = pomodoroTimer;
         tipoActual = TipoTimer.POMODORO;
-        tiempoTotal = 1500;
-        actualizarTiempoEnVista(1500);
-        vista.updateProgressBar(0);
+        tiempoTotal = setting.getWorkDurationInSeconds();
+        actualizarTiempoEnVista(tiempoTotal);
+        view.updateProgressBar(0);
         aplicarEstilosPomodoro();
         cambiarIconoStart(false);
     }
@@ -148,9 +204,9 @@ public class TimerController {
         detenerTimerActual();
         timerActual = shortBreakTimer;
         tipoActual = TipoTimer.SHORT_BREAK;
-        tiempoTotal = 300;
-        actualizarTiempoEnVista(300);
-        vista.updateProgressBar(0);
+        tiempoTotal = setting.getShortBreakDurationInSeconds();
+        actualizarTiempoEnVista(tiempoTotal);
+        view.updateProgressBar(0);
         aplicarEstilosShortBreak();
         cambiarIconoStart(false);
     }
@@ -161,8 +217,9 @@ public class TimerController {
         timerActual = longBreakTimer;
         tipoActual = TipoTimer.LONG_BREAK;
         tiempoTotal = 900;
-        actualizarTiempoEnVista(900);
-        vista.updateProgressBar(0);
+        tiempoTotal = setting.getLongBreakDurationInSeconds();
+        actualizarTiempoEnVista(tiempoTotal);
+        view.updateProgressBar(0);
         aplicarEstilosLongBreak();
         cambiarIconoStart(false);
     }
@@ -179,7 +236,7 @@ public class TimerController {
         SwingUtilities.invokeLater(() -> {
             int minutos = segundos / 60;
             int segs = segundos % 60;
-            vista.updateTimeLabel(String.format("%02d:%02d", minutos, segs));
+            view.updateTimeLabel(String.format("%02d:%02d", minutos, segs));
         });
     }
 //    Actualiza la barra de progreso
@@ -187,14 +244,14 @@ public class TimerController {
     private void actualizarBarraProgreso(int segundosRestantes) {
         SwingUtilities.invokeLater(() -> {
             int progreso = (int) (((tiempoTotal - segundosRestantes) / (double) tiempoTotal) * 100);
-            vista.updateProgressBar(progreso);
+            view.updateProgressBar(progreso);
         });
     }
 
 //  Cambia el ícono del botón Start (play/pause)
     private void cambiarIconoStart(boolean enEjecucion) {
         SwingUtilities.invokeLater(() -> {
-            vista.updateStartButtonIcon(enEjecucion);
+            view.updateStartButtonIcon(enEjecucion);
         });
     }
 
@@ -202,8 +259,7 @@ public class TimerController {
     private void manejarFinalizacion() {
         SwingUtilities.invokeLater(() -> {
             String mensaje = obtenerMensajeFinalizacion();
-            javax.swing.JOptionPane.showMessageDialog(
-                    vista,
+            javax.swing.JOptionPane.showMessageDialog(view,
                     mensaje,
                     "Timer Completado",
                     javax.swing.JOptionPane.INFORMATION_MESSAGE
@@ -216,11 +272,12 @@ public class TimerController {
     private String obtenerMensajeFinalizacion() {
         switch (tipoActual) {
             case POMODORO:
-                return "¡Pomodoro completado! 🍅\nToma un descanso.";
+                return "¡Pomodoro completado!\nToma un descanso.";
+
             case SHORT_BREAK:
-                return "¡Descanso corto completado! ☕\n¡A trabajar!";
+                return "¡Descanso corto completado!\n¡A trabajar!";
             case LONG_BREAK:
-                return "¡Descanso largo completado! 🎉\n¡Listo para continuar!";
+                return "¡Descanso largo completado!\n¡Listo para continuar!";
             default:
                 return "¡Timer completado!";
         }
@@ -254,11 +311,10 @@ public class TimerController {
     private void aplicarColores(Color colorPaneles, Color fondoCenter, Color bordeCenter) {
         SwingUtilities.invokeLater(() -> {
             // Actualizar paneles principales
-            vista.updatePanelColors(colorPaneles);
+            view.updatePanelColors(colorPaneles);
 
             // Actualizar panel central con borde redondeado
-            CustomComponents.hacerPanelRedondeado(
-                    vista.getCenterPanel(),
+            CustomComponents.hacerPanelRedondeado(view.getCenterPanel(),
                     25,
                     fondoCenter,
                     bordeCenter,
@@ -266,16 +322,20 @@ public class TimerController {
             );
 
             // Actualizar color de barra de progreso
-            vista.updateProgressBarColor(bordeCenter);
+            view.updateProgressBarColor(bordeCenter);
 
             // Repintar todo
-            vista.repaintComponents();
+            view.repaintComponents();
         });
     }
-
 //    get y set 
+
+    public Settings getSettings() {
+        return setting;
+    }
+
     public View getVista() {
-        return vista;
+        return view;
     }
 
     public Timer getTimerActual() {

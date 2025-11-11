@@ -181,5 +181,4 @@ public class Help extends JDialog {
         return label;
     }
 
-
 }

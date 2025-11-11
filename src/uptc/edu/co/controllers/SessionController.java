@@ -16,8 +16,8 @@ public class SessionController {
     private Session activeSession;
     private final PersistenceManager persistenceManager;
     private final View view;
-    private Session userHistory;
-    private final User currentUser;
+    private Session userHistory = null;
+    private  User currentUser = null;
 
     /**
      * Constructor principal del controlador de sesión.
@@ -27,9 +27,14 @@ public class SessionController {
      */
     public SessionController(View view, User user) {
         this.view = view;
-        this.currentUser = user;
         this.persistenceManager = new PersistenceManager();
-        this.userHistory = persistenceManager.loadSession(user.getId());
+        if (user != null) {
+            this.currentUser = user;
+            this.userHistory = persistenceManager.loadSession(user.getId());
+        }else {
+        this.currentUser = null;
+            this.userHistory = null;
+        }
     }
 
     /**

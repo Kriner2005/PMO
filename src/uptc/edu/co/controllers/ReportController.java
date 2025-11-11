@@ -30,7 +30,6 @@ public class ReportController implements ActionListener {
         this.rankingView = new RankingView();
         this.statisticsView = new StatisticsView(this);
         this.view = new ReportView(statisticsView, rankingView, this);
-        this.view.setVisible(true);
     }
 
     @Override
@@ -66,4 +65,9 @@ public class ReportController implements ActionListener {
     private void loadStatistics() {
     
     }
+
+    public ReportView getView() {
+        return view;
+    }
+    
 }

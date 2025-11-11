@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,7 +16,7 @@ import uptc.edu.co.utilities.CustomComponents;
 
 public class View extends javax.swing.JFrame {
 
-    public View() {
+    public View(ActionListener listener) {
         initComponents();
         aplicarEstilos();
         configurarComponentes();
@@ -46,7 +47,7 @@ public class View extends javax.swing.JFrame {
         jLabelTiempo = new javax.swing.JLabel();
         jProgressBar = new javax.swing.JProgressBar();
         leftTarea = new javax.swing.JPanel();
-        titleTask = new javax.swing.JLabel();
+        btnTask = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         rightCalendar = new javax.swing.JPanel();
@@ -303,9 +304,9 @@ public class View extends javax.swing.JFrame {
         leftTarea.setBackground(new java.awt.Color(194, 11, 11));
         leftTarea.setPreferredSize(new java.awt.Dimension(90, 525));
 
-        titleTask.setFont(new java.awt.Font("Source Sans Pro", 1, 40)); // NOI18N
-        titleTask.setForeground(new java.awt.Color(255, 255, 255));
-        titleTask.setText("<html>T<br> <br>A<br> <br>S<br> <br>K</html>");
+        btnTask.setFont(new java.awt.Font("Source Sans Pro", 1, 40)); // NOI18N
+        btnTask.setForeground(new java.awt.Color(255, 255, 255));
+        btnTask.setText("<html>T<br> <br>A<br> <br>S<br> <br>K</html>");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/laterales/angulo.png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -325,7 +326,7 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftTareaLayout.createSequentialGroup()
                 .addGap(0, 21, Short.MAX_VALUE)
-                .addComponent(titleTask, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
         leftTareaLayout.setVerticalGroup(
@@ -334,7 +335,7 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(titleTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26))
@@ -481,12 +482,13 @@ public class View extends javax.swing.JFrame {
 
 //    notificando de abrir la ventana 
     public JButton getBtnHelp() {
+        helpBtn.setActionCommand("SHOW_HELP");
         return helpBtn;
     }
 // Botón para abrir TaskPanel
 
-    public JPanel getBtnTasks() {
-        return leftTarea;
+    public JLabel getBtnTasks() {
+        return btnTask;
     }
 
     public JButton getBtnLogin() {
@@ -661,6 +663,7 @@ public class View extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnStart;
+    private javax.swing.JLabel btnTask;
     private javax.swing.JPanel centerPanel;
     private javax.swing.JButton helpBtn;
     private javax.swing.JLabel jLabel1;
@@ -687,7 +690,6 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton shortBtn1;
     private javax.swing.JPanel textPanelInt;
     private javax.swing.JLabel title;
-    private javax.swing.JLabel titleTask;
     private javax.swing.JLabel titleTask1;
     private javax.swing.JButton userBtn;
     // End of variables declaration//GEN-END:variables

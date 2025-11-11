@@ -57,7 +57,6 @@ public class TaskPanel extends JPanel {
         frame.setLocationRelativeTo(null);
         init();
         frame.setContentPane(this);
-        frame.setVisible(true);
 
     }
 

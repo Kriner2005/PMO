@@ -121,4 +121,9 @@ public class AuthController implements ActionListener {
             register.showMessage("Este usuario ya existe.");
         }
     }
+
+    public PomodoroLogin getLogin() {
+        return login;
+    }
+    
 }

@@ -39,7 +39,6 @@ public class PomodoroLogin extends JDialog {
         fondo.setLayout(new GridBagLayout());
         initComponent();
         this.add(fondo);
-        this.setVisible(true);
     }
 
     public void initComponent() {

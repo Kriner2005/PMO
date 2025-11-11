@@ -43,8 +43,10 @@ public class TaskController implements ActionListener {
     }
 
     private void loadTask() {
-        List<String> taskList = session.getTaskList();
-        if (!taskList.isEmpty()) {
+        
+        List<String> taskList = session.getTaskList() != null ? session.getTaskList(): null;
+        
+        if (!taskList.isEmpty() || taskList == null ) {
             for (String task : taskList) {
                 taskPanel.addTask(task, false);
             }
@@ -63,5 +65,11 @@ public class TaskController implements ActionListener {
     private void markTask(ActionEvent e) {
          taskPanel.markTaskDone((JButton)e.getSource());
     }
+
+    public TaskPanel getTaskPanel() {
+        return taskPanel;
+    }
+    
+    
 
 }

@@ -18,7 +18,6 @@ public class HelpController implements ActionListener {
 
     public HelpController() {
         help = new Help(this, 1);
-        abrirHelp();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class HelpController implements ActionListener {
         }
     }
 
-    private void abrirHelp() {
+    public void abrirHelp() {
         help.setVisible(true);
         //Centrar la ventana con la ventana: help.setLocationRelativeTo(vista);
     }

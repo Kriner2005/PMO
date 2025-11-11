@@ -561,7 +561,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
-                      <Component id="titleTask" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="btnTask" min="-2" pref="37" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -572,7 +572,7 @@
                       <EmptySpace pref="15" max="32767" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="titleTask" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnTask" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
@@ -581,7 +581,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="titleTask">
+            <Component class="javax.swing.JLabel" name="btnTask">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Source Sans Pro" size="40" style="1"/>

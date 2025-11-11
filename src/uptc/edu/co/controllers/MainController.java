@@ -18,70 +18,94 @@ public class MainController implements ActionListener {
 
     private User curretnUserLogged;
     private Session curreSession;
-    private TimerController timerController;
-    private View mainView;  // referencia a la vista principal
+    private View view;  // referencia a la vista principal
 
-    public void run() {
-        arranque();
+    // subControllers
+    private AuthController authController;
+    private HelpController helpController;
+    private ReportController reportController;
+    private SessionController sessionController;
+    private SettingsController settingsController;
+    private TaskController taskController;
+    private TimerController timerController;
+
+    public MainController() {
+        view = new View(this);
+        authController = new AuthController();
+        helpController = new HelpController();
+        reportController = new ReportController();
+        sessionController = new SessionController(view, curretnUserLogged);
+        settingsController = new SettingsController();
+        curreSession = new Session();
+        taskController = new TaskController(curreSession);
+        timerController = new TimerController(view);
+        timerController.arranque();
+
     }
 
-    private void arranque() {
-        // Crear el TimerController y su vista
-        timerController = new TimerController();
-        timerController.arranque();
-        // Obtener la vista principal desde el TimerController
-        mainView = timerController.getVista();
-        // Agregar listeners a los botones globales (menu superior)
+    public void run() {
+        view.setLocationRelativeTo(null);
+        view.setVisible(true);
         configurarEventosPrincipales();
-
     }
 
     private void configurarEventosPrincipales() {
         // Estos botones están definidos en View
-        mainView.getUserBtn().addActionListener(this);
-        mainView.getReportBtn().addActionListener(this);
-        mainView.getSettingBtn().addActionListener(this);
-
-        mainView.getHelpBtn().addActionListener(this);
+        view.getUserBtn().addActionListener(this);
+        view.getReportBtn().addActionListener(this);
+        view.getSettingBtn().addActionListener(this);
+//        view.getBtnTasks().add;
+        view.getHelpBtn().addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        switch (e.getActionCommand()) {
-            case "SHOW_RANKING" -> {
+        if (src == view.getBtnHelp()) {
+            mostrarAyuda();
+        }
 
-            }
-            case "SHOW_STATISTICS" -> {
+        if (src == view.getReportBtn()) {
+            abrirPanelReportes();
+        }
 
-            }
+        if (src == view.getSettingBtn()) {
+            abrirConfiguracion();
+        }
 
-            case "SHOW_HELP" -> {
+        if (src == view.getUserBtn()) {
+            abrirPanelUsuario();
+        }
 
-            }
+        if (src == view.getBtnTasks()) {
+            System.out.println("XD");
+            abrirTareas();
         }
     }
 
     private void abrirPanelUsuario() {
-        System.out.println("→ Abrir panel de usuario");
-        // Aquí luego puedes crear e invocar el UserController
-        // new UserController(currentUserLogged).mostrar();
+        authController.getLogin().setVisible(true);
     }
 
     private void abrirPanelReportes() {
-        System.out.println("→ Abrir panel de reportes");
+        reportController = new ReportController();
+        reportController.getView().setVisible(true);
         // new ReportController(currentSession).mostrar();
     }
 
     private void abrirConfiguracion() {
-        System.out.println("→ Abrir configuración");
-        // new SettingsController().mostrar();
+        settingsController.getView().setVisible(true);
+    }
+
+    private void abrirTareas() {
+        taskController.getTaskPanel().setVisible(true);
     }
 
     private void mostrarAyuda() {
-        System.out.println("→ Mostrar ayuda o FAQ");
         HelpController controller = new HelpController();
+        controller.abrirHelp();
+
     }
 
 }

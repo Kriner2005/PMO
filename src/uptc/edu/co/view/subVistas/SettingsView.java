@@ -411,12 +411,5 @@ public class SettingsView extends JFrame {
 
     public void setLongBreakField(String longBreakField) {
         this.longBreakField.setText(longBreakField);
-    }
-    
-    
-
-    public static void main(String[] args) {
-        SettingsView config = new SettingsView(null);
-        config.setVisible(true);
-    }
+    }  
 }
