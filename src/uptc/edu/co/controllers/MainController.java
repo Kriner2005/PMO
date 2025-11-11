@@ -17,17 +17,17 @@ import uptc.edu.co.view.View;
 public class MainController implements ActionListener {
 
     private User curretnUserLogged;
-    private Session curreSession;
-    private View view;  // referencia a la vista principal
+    private final Session curreSession;
+    private final View view;  // referencia a la vista principal
 
     // subControllers
-    private AuthController authController;
-    private HelpController helpController;
+    private final AuthController authController;
+    private final HelpController helpController;
     private ReportController reportController;
-    private SessionController sessionController;
-    private SettingsController settingsController;
-    private TaskController taskController;
-    private TimerController timerController;
+    private final SessionController sessionController;
+    private final SettingsController settingsController;
+    private final TaskController taskController;
+    private final TimerController timerController;
 
     public MainController() {
         view = new View(this);
