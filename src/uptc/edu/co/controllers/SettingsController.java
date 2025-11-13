@@ -13,15 +13,17 @@ import uptc.edu.co.view.subVistas.SettingsView;
 public class SettingsController implements ActionListener {
 
     private SettingsView view;
-    private Settings settingsTimer;
     private Session session;
 
-    public SettingsController() {
+    public SettingsController(Session session) {
 
         this.view = new SettingsView(this);
-        settingsTimer = new Settings();
-        session = new Session();
+        this.session = session;
 
+        Settings currentSettings = session.getSettings();
+        view.setPomodoroField(String.valueOf(currentSettings.getWorkDuration()));
+        view.setShortBreakField(String.valueOf(currentSettings.getShortBreakDuration()));
+        view.setLongBreakField(String.valueOf(currentSettings.getLongBreakDuration()));
     }
 
     @Override
@@ -55,11 +57,8 @@ public class SettingsController implements ActionListener {
         view.setShortBreakField("5");
         view.setLongBreakField("15");
 
-        settingsTimer.setWork(25);
-        settingsTimer.setShortBreak(5);
-        settingsTimer.setLongBreak(15);
-
-        session.setSettings(settingsTimer);
+        Settings defaultSettings = new Settings(25, 5, 15);
+        session.setSettings(defaultSettings); // Esto notificará automáticamente al TimerController
 
     }
 
@@ -97,16 +96,24 @@ public class SettingsController implements ActionListener {
             view.setLongBreakField("15");
         }
 
-        settingsTimer.setWork(pomodoro);
-        settingsTimer.setShortBreak(shortBreak);
-        settingsTimer.setLongBreak(longBreak);
-        session.setSettings(settingsTimer);
+        Settings newSettings = new Settings(pomodoro, shortBreak, longBreak);
+        session.setSettings(newSettings); // Esto notificará automáticamente al TimerController
 
         System.out.println("Tiempos actualizados correctamente");
+    }
+    
+     public void setSession(Session newSession) {
+        this.session = newSession;
+        
+        // Actualizar vista con las configuraciones de la nueva sesión
+        Settings settings = newSession.getSettings();
+        view.setPomodoroField(String.valueOf(settings.getWorkDuration()));
+        view.setShortBreakField(String.valueOf(settings.getShortBreakDuration()));
+        view.setLongBreakField(String.valueOf(settings.getLongBreakDuration()));
     }
 
     public SettingsView getView() {
         return view;
     }
-    
+
 }

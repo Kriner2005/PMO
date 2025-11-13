@@ -10,7 +10,10 @@ import uptc.edu.co.models.timer.Timer;
 import uptc.edu.co.models.session.TimerListener;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.Settings;
+import uptc.edu.co.models.session.SettingsListener;
 import uptc.edu.co.utilities.CustomComponents;
 import uptc.edu.co.view.View;
 
@@ -18,12 +21,13 @@ import uptc.edu.co.view.View;
  *
  * @author alber
  */
-public class TimerController {
+public class TimerController implements SettingsListener {
 
     // Conexión vista y modelo 
     private final View view;
     private Timer timerActual;
     private int tiempoTotal;
+    private Session session;
 
     // Los tres modos del pomodoro
     private PomodoroTimer pomodoroTimer;
@@ -39,10 +43,15 @@ public class TimerController {
     private TipoTimer tipoActual;
 
 //    Constructor: inicializa los timers
-    public TimerController(View view) {
+    public TimerController(View view, Session session) {
         this.view = view;
+        this.session = session;
 //      valores predeterminados 
         setting = new Settings();
+
+        session.addSettingsListener(this);
+
+        Settings settings = session.getSettings();
 
 //      crear un timer con esas configuraciones establecidas en configuraciones
         // Se lee de settings y se convierte
@@ -59,7 +68,67 @@ public class TimerController {
         tipoActual = TipoTimer.POMODORO;
     }
 
-//    aplicar las nuevas configuraciones 
+    @Override
+    public void onSettingsChanged(Settings newSettings) {
+        JOptionPane.showMessageDialog(view, "🔔 TimerController detectó cambio en configuraciones");
+
+        // Detener timer actual
+        if (timerActual.isRunning()) {
+            timerActual.stop();
+        }
+
+        pomodoroTimer = new PomodoroTimer(newSettings.getWorkDurationInSeconds());
+        shortBreakTimer = new PomodoroTimer(newSettings.getShortBreakDurationInSeconds());
+        longBreakTimer = new PomodoroTimer(newSettings.getLongBreakDurationInSeconds());
+
+        configurarListenerTimer();
+
+        switch (tipoActual) {
+            case POMODORO:
+                timerActual = pomodoroTimer;
+                tiempoTotal = newSettings.getWorkDurationInSeconds();
+                break;
+            case SHORT_BREAK:
+                timerActual = shortBreakTimer;
+                tiempoTotal = newSettings.getShortBreakDurationInSeconds();
+                break;
+            case LONG_BREAK:
+                timerActual = longBreakTimer;
+                tiempoTotal = newSettings.getLongBreakDurationInSeconds();
+                break;
+        }
+
+        actualizarTiempoEnVista(tiempoTotal);
+        view.updateProgressBar(0);
+        cambiarIconoStart(false);
+
+        String mensaje = newSettings.esConfiguracionPorDefecto()
+                ? "⏱️ Configuración estándar de Pomodoro aplicada"
+                : "⚙️ Configuración personalizada aplicada";
+
+        javax.swing.JOptionPane.showMessageDialog(view,
+                mensaje,
+                "Configuración Actualizada",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    public void setSession(Session newSession) {
+        // Desuscribirse de la sesión anterior
+        if (this.session != null) {
+            this.session.removeSettingsListener(this);
+        }
+
+        // Actualizar referencia y suscribirse
+        this.session = newSession;
+        newSession.addSettingsListener(this);
+
+        // Aplicar configuraciones de la nueva sesión
+        onSettingsChanged(newSession.getSettings());
+
+    }
+
+    //    aplicar las nuevas configuraciones 
     public void aplicarNuevasConfigs(int workMinuto, int shortMinuto, int longMinuto) {
 
         // Detener timer actual

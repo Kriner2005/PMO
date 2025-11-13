@@ -17,7 +17,7 @@ import uptc.edu.co.view.View;
 public class MainController implements ActionListener {
 
     private User curretnUserLogged;
-    private final Session curreSession;
+    private      Session currentSession;
     private final View view;  // referencia a la vista principal
 
     // subControllers
@@ -30,15 +30,18 @@ public class MainController implements ActionListener {
     private final TimerController timerController;
 
     public MainController() {
+        currentSession = new Session(null, "Sesión anonima");        
         view = new View(this);
         authController = new AuthController();
         helpController = new HelpController();
         reportController = new ReportController();
         sessionController = new SessionController(view, curretnUserLogged);
-        settingsController = new SettingsController();
-        curreSession = new Session();
-        taskController = new TaskController(curreSession);
-        timerController = new TimerController(view);
+        settingsController = new SettingsController(currentSession);
+        currentSession = new Session();        
+        taskController = new TaskController(currentSession);
+        
+        
+        timerController = new TimerController(view,currentSession);
         timerController.arranque();
 
     }
@@ -107,5 +110,20 @@ public class MainController implements ActionListener {
         controller.abrirHelp();
 
     }
-
+    
+      public void setCurrentUser(User user) {
+        this.curretnUserLogged = user;
+        
+        // Crear nueva sesión con el usuario
+        currentSession = new Session(user, "Sesión de " + user.getName());
+        currentSession.initializeSession();
+        
+        // Reconectar listeners
+        timerController.setSession(currentSession);
+        settingsController.setSession(currentSession);
+    }
+      
+          public Session getCurrentSession() {
+        return currentSession;
+    }
 }

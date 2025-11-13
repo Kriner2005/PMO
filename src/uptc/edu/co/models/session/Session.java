@@ -27,10 +27,13 @@ public class Session {
     private List<PomodoroRecord> currentSessionsRecords; // Pomodoros de esta sesión
     private Settings settings; // Config específica de esta sesión
 
+    private transient List<SettingsListener> settingsListeners;
+
     public Session() {
         this.currentSessionsRecords = new ArrayList<>();
         this.settings = new Settings(); // valores por defecto
         this.taskList = new ArrayList<>();
+        this.settingsListeners = new ArrayList<>();
     }
 
     public Session(User user, String sessionName) {
@@ -41,6 +44,22 @@ public class Session {
         this.currentSessionsRecords = new ArrayList<>();
         this.settings = new Settings(); // valores por defecto
         taskList = new ArrayList<>();
+        this.settingsListeners = new ArrayList<>();
+    }
+
+    public void addSettingsListener(SettingsListener listener) {
+        if (settingsListeners == null) {
+            settingsListeners = new ArrayList<>();
+        }
+        if (listener != null && !settingsListeners.contains(listener)) {
+            settingsListeners.add(listener);
+        }
+    }
+
+    public void removeSettingsListener(SettingsListener listener) {
+        if (settingsListeners != null) {
+            settingsListeners.remove(listener);
+        }
     }
 
     public void initializeSession() {
@@ -96,6 +115,15 @@ public class Session {
 
     public void setSettings(Settings settings) {
         this.settings = settings;
+        notifySettingsChanged();
+    }
+
+    private void notifySettingsChanged() {
+        if (settingsListeners != null) {
+            for (SettingsListener listener : settingsListeners) {
+                listener.onSettingsChanged(this.settings);
+            }
+        }
     }
 
     public User getLoggedUser() {
