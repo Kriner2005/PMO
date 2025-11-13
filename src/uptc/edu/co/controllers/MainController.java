@@ -44,6 +44,7 @@ public class MainController implements ActionListener {
     }
 
     public void run() {
+        
         view.setLocationRelativeTo(null);
         view.setVisible(true);
         configurarEventosPrincipales();
@@ -99,7 +100,6 @@ public class MainController implements ActionListener {
     }
 
     private void abrirTareas() {
-        taskController.getTaskPanel().setVisible(true);
     }
 
     private void mostrarAyuda() {

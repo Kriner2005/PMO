@@ -69,7 +69,4 @@ public class TaskController implements ActionListener {
     public TaskPanel getTaskPanel() {
         return taskPanel;
     }
-    
-    
-
 }

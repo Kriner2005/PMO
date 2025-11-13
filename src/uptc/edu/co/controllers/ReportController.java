@@ -70,4 +70,9 @@ public class ReportController implements ActionListener {
         return view;
     }
     
+    public static void main(String[] args) {
+        ReportController c  = new ReportController();
+        c.getView().setVisible(true);
+    }
+    
 }
