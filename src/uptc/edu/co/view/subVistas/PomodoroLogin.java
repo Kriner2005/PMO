@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import uptc.edu.co.utilities.CustomComponents;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -39,6 +38,8 @@ public class PomodoroLogin extends JDialog {
         fondo.setLayout(new GridBagLayout());
         initComponent();
         this.add(fondo);
+        this.setVisible(true);
+
     }
 
     public void initComponent() {
@@ -119,8 +120,8 @@ public class PomodoroLogin extends JDialog {
         panel.add(backBtn, gbc);
     }
 
-    public void showMessage(String message) {
-        JOptionPane.showMessageDialog(this, message);
+     public void showMessage(String title, String message, int image) {
+        new EmergentWindow(title, message, image);
 
     }
 

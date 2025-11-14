@@ -1,6 +1,8 @@
 package uptc.edu.co.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PersistenceDelegate;
+import uptc.edu.co.models.persistence.PersistenceManager;
 import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.Settings;
 import uptc.edu.co.view.subVistas.SettingsView;
@@ -10,11 +12,12 @@ public class SettingsController implements ActionListener {
 
     private final SettingsView view;
     private Session session;
+    private MainController main;
 
-    public SettingsController(Session session) {
+    public SettingsController(Session session, MainController main) {
         this.view = new SettingsView(this);
         this.session = session;
-
+        this.main = main;
         cargarValoresActuales();
     }
 
@@ -44,6 +47,7 @@ public class SettingsController implements ActionListener {
 
         Settings newSettings = new Settings(work, sb, lb);
         session.setSettings(newSettings); // <---- Notifica automáticamente
+        new PersistenceManager().saveSession(main.getCurrentUserLogged().getId(), session);
     }
 
     public void reset() {

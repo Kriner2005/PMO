@@ -9,9 +9,24 @@ package uptc.edu.co.models.user;
  * @author alber
  */
 public enum Role {
-    USER,
-    ADMIN;
+    USER("Usuario"),
+    ADMIN("Administrador");
+    
+    private final String descripcion;
 
+    Role(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+     public String getDescripcion() {
+        return descripcion;
+    }
+    
+    @Override
+    public String toString() {
+        return descripcion;
+    }
+    
     public boolean isAdmin() {
         return this == ADMIN;
     }

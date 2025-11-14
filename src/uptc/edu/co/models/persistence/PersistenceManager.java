@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import uptc.edu.co.models.session.Session;
+import uptc.edu.co.models.session.Settings;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.utilities.LocalDateTimeAdapter;
 import uptc.edu.co.utilities.Utilities;
@@ -43,7 +44,7 @@ public class PersistenceManager {
         }
     }
 
-    private void saveUsers(List<User> users) throws IOException {
+    public void saveUsers(List<User> users) throws IOException {
         try (FileWriter writer = new FileWriter(Utilities.USERS_FILE)) {
             gson.toJson(users, writer);
         }
@@ -85,18 +86,17 @@ public class PersistenceManager {
     }
 
     // ------------------ SESSION ------------------
-   public boolean saveSession(int userId, Session session) {
-    try {
-        String filePath = Utilities.HISTORIES + "history_" + userId + ".json";
-        session.setSessionId(userId);
-        // 🔹 Sobrescribe directamente porque ya cargaste y actualizaste en memoria
-        return saveToFile(filePath, session);
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+    public boolean saveSession(int userId, Session session) {
+        try {
+            String filePath = Utilities.HISTORIES + "history_" + userId + ".json";
+            session.setSessionId(userId);
+            // 🔹 Sobrescribe directamente porque ya cargaste y actualizaste en memoria
+            return saveToFile(filePath, session);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
-
 
     public List<Session> loadAllSessions() {
         List<Session> sessions = new ArrayList<>();
@@ -147,6 +147,10 @@ public class PersistenceManager {
                 }
                 if (session.getTaskList() == null) {
                     session.setTaskList(new ArrayList<>());
+                }
+
+                if (session.getSettings() == null) {
+                    session.setSettings(new Settings());
                 }
 
                 return session;

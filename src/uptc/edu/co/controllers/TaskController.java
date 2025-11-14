@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
+import uptc.edu.co.models.persistence.PersistenceManager;
 import uptc.edu.co.models.session.Session;
 import uptc.edu.co.view.subVistas.AddTaskDialog;
 import uptc.edu.co.view.subVistas.TaskPanel;
@@ -19,7 +20,7 @@ import uptc.edu.co.view.subVistas.TaskPanel;
 public class TaskController implements ActionListener {
 
     private final TaskPanel taskPanel;
-    private  Session session;
+    private Session session;
 
     public TaskController(Session session) {
         this.taskPanel = new TaskPanel(this);
@@ -43,13 +44,16 @@ public class TaskController implements ActionListener {
     }
 
     private void loadTask() {
-        
-        List<String> taskList = session.getTaskList() != null ? session.getTaskList(): null;
-        
-        if (!taskList.isEmpty() || taskList == null ) {
-            for (String task : taskList) {
-                taskPanel.addTask(task, false);
-            }
+
+        List<String> taskList = session.getTaskList();
+
+        if (taskList == null) {
+            session.setTaskList(new java.util.ArrayList<>());
+            return;
+        }
+
+        for (String task : taskList) {
+            taskPanel.addTask(task, false);
         }
     }
 
@@ -57,13 +61,25 @@ public class TaskController implements ActionListener {
         AddTaskDialog dialog = new AddTaskDialog(taskPanel.getParentFrame());
         dialog.setVisible(true);
         String task = dialog.getTask();
+
         if (task != null && !task.trim().isEmpty()) {
             taskPanel.addTask(task, false);
+
+            // GUARDAR EN LA SESSION
+            session.getTaskList().add(task);
+
+            // GUARDAR EN JSON
+            new PersistenceManager().saveSession(session.getSessionId(), session);
         }
     }
-    
+
+    public void reload() {
+        taskPanel.clearTasks();
+        loadTask();
+    }
+
     private void markTask(ActionEvent e) {
-         taskPanel.markTaskDone((JButton)e.getSource());
+        taskPanel.markTaskDone((JButton) e.getSource());
     }
 
     public TaskPanel getTaskPanel() {

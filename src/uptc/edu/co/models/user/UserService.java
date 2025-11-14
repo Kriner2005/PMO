@@ -5,6 +5,7 @@
 package uptc.edu.co.models.user;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import uptc.edu.co.models.persistence.PersistenceManager;
 
 /**
@@ -71,4 +72,48 @@ public class UserService {
         return id;
     }
 
+    private Pattern EMAIL_PATTERN = Pattern.compile(
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+    );
+
+    private Pattern PASSWORD_PATTERN = Pattern.compile(
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&._-])[A-Za-z\\d@$!%*?&._-]{6,}$"
+    );
+
+    public boolean isValidEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+        return EMAIL_PATTERN.matcher(email).matches();
+    }
+
+    public boolean isValidPassword(String password) {
+        if (password == null) {
+            return false;
+        }
+        return PASSWORD_PATTERN.matcher(password).matches();
+    }
+
+    public String passwordFeedback(String password) {
+        if (password == null || password.length() < 6) {
+            return "Debe tener al menos 6 caracteres.";
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            return "Debe contener al menos una letra mayúscula.";
+        }
+        if (!password.matches(".*[a-z].*")) {
+            return "Debe contener al menos una letra minúscula.";
+        }
+        if (!password.matches(".*\\d.*")) {
+            return "Debe contener al menos un número.";
+        }
+        if (!password.matches(".*[@$!%*?&._-].*")) {
+            return "Debe contener al menos un carácter especial (@$!%*?&._-).";
+        }
+        return "Contraseña válida.";
+    }
+
+    public static boolean verificateRol(User user) {
+        return user.getRol() == Role.ADMIN;
+    }
 }

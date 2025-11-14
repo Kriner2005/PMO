@@ -7,14 +7,16 @@ package uptc.edu.co.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import uptc.edu.co.models.persistence.PersistenceManager;
+import uptc.edu.co.models.session.Session;
+import uptc.edu.co.models.session.Settings;
 import uptc.edu.co.models.user.Role;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.view.subVistas.PomodoroLogin;
 import uptc.edu.co.view.subVistas.RegisterForm;
 import uptc.edu.co.models.user.UserService;
+import uptc.edu.co.view.View;
 
 /**
  *
@@ -25,13 +27,15 @@ public class AuthController implements ActionListener {
 
     private PomodoroLogin login;
     private RegisterForm register;
-    private List< User> usuarios = new ArrayList<>();
+    private User user;
+    private View vista;
+    private MainController mainController;
 
-    public AuthController() {
-        abrirLogin();
+    public AuthController(MainController mainController) {
+        this.mainController = mainController;
     }
 
-    private void abrirLogin() {
+    public void abrirLogin() {
         login = new PomodoroLogin(this);
     }
 
@@ -53,9 +57,8 @@ public class AuthController implements ActionListener {
 
             case "BUTTON_BACK_LOGIN" -> {
                 login.dispose();
-                login.showMessage("se abrio la vista ");
-                //vista visible 
-                // vista.setVisible(true);
+                vista.setVisible(true);
+//                login.showMessage("se abrio la vista ");
             }
 
             case "BUTTON_BACK_REGISTER" -> {
@@ -72,7 +75,6 @@ public class AuthController implements ActionListener {
             }
 
         }
-        // === LOGIN ===
 
     }
 
@@ -83,19 +85,26 @@ public class AuthController implements ActionListener {
         String password = login.getTextPassword();
 
         if (email.isEmpty() || password.isEmpty() || email.equalsIgnoreCase("EMAIL ID") || password.equalsIgnoreCase("PASSWORD")) {
-            login.showMessage("Por favor ingrese todos los campos.");
+            login.showMessage("ERROR", "Por favor ingrese todos los campos.", 1);
         } else if (service.userExist(email) == true) {
             if (service.verificatePassword(email, password) == true) {
-                User user = service.searchUser(email, password);
-                login.showMessage("Bienvenido: " + email);
+                this.user = service.searchUser(email, password);
                 login.dispose();
-                login.showMessage("se abrio la vista ");
-                //enviar a la vista el usuario
+                mainController.setCurretnUserLogged(user);
+                if (UserService.verificateRol(user) && user != null) {
+                    this.vista.getAdminBtn().setVisible(true);
+                    //se le envia la vista para el administrador y se coloca en this.vista
+                    login.showMessage("","se abre la vista admin",2);
+                    
+                }
+                this.vista.setVisible(true);
+                login.showMessage("Bienvenido: ", service.searchUser(email, password).getName(), 2);
+
             } else {
-                login.showMessage("Contraseña incorrecta.");
+                login.showMessage("ERROR", "Contraseña incorrecta.", 1);
             }
         } else {
-            login.showMessage("Usuario o contraseña incorrectos.");
+            login.showMessage("ERROR", "Usuario o contraseña incorrectos.", 1);
             login.setTextEmail();
             login.setTextPassword();
         }
@@ -110,20 +119,37 @@ public class AuthController implements ActionListener {
         UserService service = new UserService(manager);
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || name.equalsIgnoreCase("Ingrese su nombre...") || email.equalsIgnoreCase("Ingrese su correo...") || password.equalsIgnoreCase("Ingrese una contraseña...")) {
-            register.showMessage("Por favor ingrese todos los campos.");
+            register.showMessage("ERROR", "Por favor ingrese todos los campos.", 1);
+        } else if (!service.isValidEmail(email)) {
+            register.showMessage("Correo inválido"," Por favor ingrese un correo con formato válido (ej: usuario@dominio.com).",1);
+        } else if (!service.isValidPassword(password)) {
+            String feedback = service.passwordFeedback(password);
+            register.showMessage("Contraseña no válida: ", feedback,1);
         } else if (service.userExist(email) == false) {
-            User newUser = new User(service.generateId(), name, email, password, Role.USER);
+            User newUser = new User(UserService.generateId(), name, email, password, Role.USER);
             manager.addUser(newUser);
-            register.showMessage("Usuario registrado correctamente: " + name);
+            register.showMessage("Usuario registrado correctamente: " , name,2);
+            manager.saveSession(newUser.getId(), new Session(newUser, ""));
             login.setVisible(true);
             register.dispose();
         } else {
-            register.showMessage("Este usuario ya existe.");
+            register.showMessage("ERROR","Este usuario ya existe.",1);
         }
     }
 
     public PomodoroLogin getLogin() {
         return login;
     }
-    
+
+    public User getCurrentUser() {
+        return user;
+    }
+
+    public void setCurrentUser(User user) {
+        this.user = user;
+    }
+
+    public void getViewMain(View view) {
+        this.vista = view;
+    }
 }

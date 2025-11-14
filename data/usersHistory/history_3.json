@@ -1,0 +1,20 @@
+{
+  "sessionId": 3,
+  "sessionName": "",
+  "loggedUser": {
+    "id": 3,
+    "name": "RAUL",
+    "email": "r@gmail.com",
+    "password": "1234zZ@",
+    "rol": "USER",
+    "banned": false
+  },
+  "taskList": [],
+  "startTime": "2025-11-14T08:04:04.9054792",
+  "currentSessionsRecords": [],
+  "settings": {
+    "workDuration": 25,
+    "shortBreakDuration": 5,
+    "longBreakDuration": 15
+  }
+}

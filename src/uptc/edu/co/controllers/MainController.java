@@ -14,6 +14,7 @@ import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.Settings;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.view.View;
+import uptc.edu.co.view.subVistas.AdminUser;
 import uptc.edu.co.view.subVistas.EmergentWindow;
 
 /**
@@ -27,13 +28,14 @@ public class MainController implements ActionListener {
     private final View view;
 
     // Subcontroladores
-    private PersistenceManager persistenceManager;
+    private final PersistenceManager persistenceManager;
     private final AuthController authController;
     private final HelpController helpController;
     private ReportController reportController;
     private final SettingsController settingsController;
     private final TaskController taskController;
     private final TimerController timerController;
+    private AdminController adminController = null;
 
     public MainController() {
         persistenceManager = new PersistenceManager();
@@ -47,10 +49,14 @@ public class MainController implements ActionListener {
         authController = new AuthController(this);
         helpController = new HelpController();
         reportController = new ReportController();
-        settingsController = new SettingsController(currentSession);
+        settingsController = new SettingsController(currentSession,this);
         taskController = new TaskController(currentSession);
         timerController = new TimerController(view, currentSession);
-
+        if (currentUserLogged == null) {
+            view.getAdminBtn().setVisible(false);
+        }else{
+            view.getAdminBtn().setVisible(true);
+        }
         // 4. Arrancar timer
         timerController.arranque();
     }
@@ -66,6 +72,7 @@ public class MainController implements ActionListener {
         view.getReportBtn().addActionListener(this);
         view.getSettingBtn().addActionListener(this);
         view.getHelpBtn().addActionListener(this);
+        view.getAdminBtn().addActionListener(this);
         view.getLeftTarea().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -89,12 +96,19 @@ public class MainController implements ActionListener {
             abrirPanelUsuario();
         } else if (src == view.getLeftTarea()) {
             abrirTareas();
+        } else if (src == view.getAdminBtn()) {
+            adminUser();
         }
     }
 
     // -------------------------
     // Métodos de navegación
     // -------------------------
+    
+    private void adminUser() {
+        AdminController controller = new AdminController(new AdminUser(), currentUserLogged);
+        controller.getVista().setVisible(true);
+    }
     private void abrirPanelUsuario() {
         authController.abrirLogin();
         view.setVisible(false);
@@ -126,7 +140,13 @@ public class MainController implements ActionListener {
         System.out.println("eee" + curretnUserLogged);
         if (curretnUserLogged != null) {
             this.currentSession = persistenceManager.loadSession(curretnUserLogged.getId());
-            createSession();
+            settingsController.setSession(currentSession);
+            taskController.setSession(currentSession);
+            timerController.setSession(currentSession);
+            taskController.setSession(currentSession);
+            taskController.reload();
+            view.getBtnLogin().removeActionListener(this);
+
             System.out.println("usuario de la clase session controller:" + curretnUserLogged);
         } else {
             System.out.println("session nulo ");
@@ -161,6 +181,12 @@ public class MainController implements ActionListener {
         view.setTitle("Pomodoro - Sesión: " + sessionName);
         new EmergentWindow("Sesión iniciada", "Sesión creada exitosamente.\nDuración trabajo: "
                 + settings.getWorkDuration() + " min.", 2);
-
+        persistenceManager.saveSession(currentUserLogged.getId(), currentSession);
     }
+
+    public User getCurrentUserLogged() {
+        return currentUserLogged;
+    }
+    
+    
 }

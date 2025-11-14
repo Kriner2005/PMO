@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -21,17 +20,18 @@ public class RegisterForm extends JDialog {
 
     private JTextField nameField, emailField;
     private JPasswordField passField;
-    private JLabel labelImagen, name, email, password;
+    private JLabel labelImagen, name, email, password, fieldsMessage;
     private ActionListener listener;
 
     public RegisterForm(ActionListener listener) {
         this.listener = listener;
         setTitle("Registro - POMODORO TIMER");
-        setSize(500, 450);
+        setSize(500, 550);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new CustomComponents().createRoundedPanel(30, Utilities.MAIN_COLOR, 4, null);
+        CustomComponents.aplicarBordeRedondeado(panel, Color.WHITE, 6, 30);
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Utilities.REGISTER_COLOR_FONDO);
         panel.setSize(500, 450);
@@ -107,6 +107,14 @@ public class RegisterForm extends JDialog {
         gbc.gridx = 1;
         panel.add(passField, gbc);
 
+        fieldsMessage = new JLabel("<html><div style='text-align: center;'>*Su contraseña debe contener: Mínimo 6 caracteres - Al menos una mayúscula - Al menos una minúscula - Al menos un dígito - Al menos un símbolo especial  </div></html>");
+        fieldsMessage.setFont(Utilities.FONT_REGISTER_MESSAGE);
+        fieldsMessage.setForeground(Color.white);
+        gbc.gridwidth = 3;
+        gbc.gridy++;
+        gbc.gridx = 0;
+        panel.add(fieldsMessage, gbc);
+
         JButton registerBtn = new CustomComponents().createRoundedButton("Registrar", Utilities.BUTTON_COLOR_REGISTER, 30, 4, 8);
         gbc.gridy++;
         gbc.gridx = 1;
@@ -126,8 +134,8 @@ public class RegisterForm extends JDialog {
         this.setVisible(true);
     }
 
-    public void showMessage(String message) {
-        JOptionPane.showMessageDialog(this, message);
+       public void showMessage(String title, String message, int image) {
+        new EmergentWindow(title, message, image);
 
     }
 
@@ -145,6 +153,11 @@ public class RegisterForm extends JDialog {
         String password = new String(passField.getPassword());
         return password;
     }
+
+    public void setTextMessage(String message) {
+        fieldsMessage.setText(message);
+    }
+
     public static void main(String[] args) {
         RegisterForm rg = new RegisterForm(null);
     }

@@ -34,12 +34,15 @@ public class Utilities {
     public static final Font STATISTICS_LABELS_VALUE_FONT = new Font("Arial", Font.BOLD, 28);
     public final static Font TITLE_FONT_HELP = new Font("Monospaced", Font.BOLD, 16);
     public final static Font TEXT_FONT_HELP = new Font("Monospaced", Font.ITALIC, 12);
+     public final static Font TEXT_FONT_EMERGENT = new Font("Monospaced", Font.ITALIC, 16);
+    public final static Font TITLE_FONT_EMERGENT = new Font("Monospaced", Font.BOLD, 20);
     public final static Font LOGO_FONT = new Font("Arial", Font.BOLD, 18);
     public final static Font SUBTITLE_FONT_LOGIN = new Font("Arial", Font.BOLD, 14);
     public final static Font TITLE_FONT_RANKING = new Font("Arial", Font.BOLD, 22);
     public final static Font TITLE_FONT_REGISTER = new Font("Arial", Font.BOLD, 24);
     public final static Font SUBTITLE_FONT_REGISTER = new Font("Arial", Font.PLAIN, 18);
     public final static Font FONT_REGISTER_FIELDS = new Font("Arial", Font.ITALIC, 15);
+    public final static Font FONT_REGISTER_MESSAGE = new Font("Arial", Font.ITALIC, 10);
     public final static Font FONT_SETTINGS_BUTTON_RESET = new Font("Monospaced", Font.BOLD, 18);
     public final static Font TASKPANEL_ADD_BUTTON_FONT = new Font("Arial", Font.BOLD, 14);
 

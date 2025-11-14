@@ -1,25 +1,25 @@
 [
   {
     "id": 1,
-    "name": "keiner",
-    "email": "a",
-    "password": "",
+    "name": "Keiner",
+    "email": "s@gmail.com",
+    "password": "1234zZ@",
     "rol": "USER",
     "banned": false
   },
   {
     "id": 2,
     "name": "sara",
-    "email": "alber@gmail.com",
-    "password": "123",
-    "rol": "USER",
+    "email": "c@gmail.com",
+    "password": "1234zZ@",
+    "rol": "ADMIN",
     "banned": false
   },
   {
     "id": 3,
-    "name": "keiner",
-    "email": "correo",
-    "password": "123",
+    "name": "RAUL",
+    "email": "r@gmail.com",
+    "password": "1234zZ@",
     "rol": "USER",
     "banned": false
   }
