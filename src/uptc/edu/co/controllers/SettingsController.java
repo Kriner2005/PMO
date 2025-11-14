@@ -12,7 +12,7 @@ import uptc.edu.co.view.subVistas.SettingsView;
  */
 public class SettingsController implements ActionListener {
 
-    private SettingsView view;
+    private final SettingsView view;
     private Session session;
 
     public SettingsController(Session session) {

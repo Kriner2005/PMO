@@ -14,5 +14,13 @@
     "password": "123",
     "rol": "USER",
     "banned": false
+  },
+  {
+    "id": 3,
+    "name": "keiner",
+    "email": "correo",
+    "password": "123",
+    "rol": "USER",
+    "banned": false
   }
 ]
