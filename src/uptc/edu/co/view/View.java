@@ -55,6 +55,7 @@ public class View extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         helpBtn = new javax.swing.JButton();
+        adminBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("POMODORO");
@@ -133,11 +134,11 @@ public class View extends javax.swing.JFrame {
         );
         menuNavLayout.setVerticalGroup(
             menuNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
             .addGroup(menuNavLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(nav, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
         );
 
         navSubBtn.setBackground(new java.awt.Color(255, 255, 255));
@@ -332,7 +333,7 @@ public class View extends javax.swing.JFrame {
         leftTareaLayout.setVerticalGroup(
             leftTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftTareaLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(btnTask, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,6 +388,11 @@ public class View extends javax.swing.JFrame {
         helpBtn.setContentAreaFilled(false);
         helpBtn.setFocusPainted(false);
 
+        adminBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/sub_btn/admin.png"))); // NOI18N
+        adminBtn.setBorderPainted(false);
+        adminBtn.setContentAreaFilled(false);
+        adminBtn.setFocusPainted(false);
+
         javax.swing.GroupLayout mainLayout = new javax.swing.GroupLayout(main);
         main.setLayout(mainLayout);
         mainLayout.setHorizontalGroup(
@@ -394,19 +400,21 @@ public class View extends javax.swing.JFrame {
             .addGroup(mainLayout.createSequentialGroup()
                 .addGroup(mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainLayout.createSequentialGroup()
-                        .addComponent(leftTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainLayout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(navSubBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 1016, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(mainLayout.createSequentialGroup()
+                                .addComponent(leftTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(170, 170, 170)
-                                .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 736, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 736, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(mainLayout.createSequentialGroup()
+                                .addGap(140, 140, 140)
+                                .addComponent(navSubBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 1016, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(49, 49, 49)
                         .addComponent(rightCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(menuNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(mainLayout.createSequentialGroup()
-                        .addGap(1149, 1149, 1149)
+                        .addGap(55, 55, 55)
+                        .addComponent(adminBtn)
+                        .addGap(1038, 1038, 1038)
                         .addComponent(helpBtn)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -414,21 +422,23 @@ public class View extends javax.swing.JFrame {
             mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainLayout.createSequentialGroup()
                 .addComponent(menuNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(helpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addGroup(mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainLayout.createSequentialGroup()
-                        .addComponent(leftTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(mainLayout.createSequentialGroup()
+                        .addComponent(helpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addGroup(mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(rightCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(mainLayout.createSequentialGroup()
                                 .addComponent(navSubBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(centerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(59, 59, 59))))
+                        .addGap(59, 59, 59))
+                    .addGroup(mainLayout.createSequentialGroup()
+                        .addComponent(adminBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(leftTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -441,7 +451,7 @@ public class View extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
+            .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
         );
 
         pack();
@@ -521,6 +531,11 @@ public class View extends javax.swing.JFrame {
 
     public JButton getHelpBtn() {
         return helpBtn;
+    }
+    
+//    get del boton de administrador
+    public JButton getAdminBtn(){
+        return adminBtn;
     }
 
     public void actualizarTiempo(String tiempo) {
@@ -661,6 +676,7 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adminBtn;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnStart;
     private javax.swing.JLabel btnTask;
