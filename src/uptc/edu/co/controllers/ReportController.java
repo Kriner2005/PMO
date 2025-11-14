@@ -57,13 +57,12 @@ public class ReportController implements ActionListener {
             users[i] = ranking.get(i).getKey();
             hours[i] = ranking.get(i).getValue();
         }
-
         rankingView.SetData(users, hours);
 
     }
     
     private void loadStatistics() {
-    
+        
     }
 
     public ReportView getView() {

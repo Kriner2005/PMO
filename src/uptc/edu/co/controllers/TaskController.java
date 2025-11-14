@@ -19,7 +19,7 @@ import uptc.edu.co.view.subVistas.TaskPanel;
 public class TaskController implements ActionListener {
 
     private final TaskPanel taskPanel;
-    private final Session session;
+    private  Session session;
 
     public TaskController(Session session) {
         this.taskPanel = new TaskPanel(this);
@@ -68,5 +68,9 @@ public class TaskController implements ActionListener {
 
     public TaskPanel getTaskPanel() {
         return taskPanel;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 }

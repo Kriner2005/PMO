@@ -462,6 +462,12 @@ public class View extends javax.swing.JFrame {
         return btnStart;
     }
 
+    public JPanel getLeftTarea() {
+        return leftTarea;
+    }
+    
+    
+
     public JButton getBtnReset() {
         return btnReset;
     }
@@ -612,7 +618,7 @@ public class View extends javax.swing.JFrame {
         // Configurar el label del tiempo
         jLabelTiempo.setFont(new Font("Source San Pro", Font.BOLD, 90));
         jLabelTiempo.setForeground(Color.WHITE);
-        jLabelTiempo.setText("25:00");
+//        jLabelTiempo.setText("25:00");
         jLabelTiempo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         // Configurar la barra de progreso

@@ -16,110 +16,103 @@ import uptc.edu.co.view.View;
  */
 public class MainController implements ActionListener {
 
-    private User curretnUserLogged;
+    private User currentUserLogged;
     private Session currentSession;
-    private final View view;  // referencia a la vista principal
+    private final View view;
 
-    // subControllers
+    // Subcontroladores
     private final AuthController authController;
     private final HelpController helpController;
     private ReportController reportController;
-    private final SessionController sessionController;
     private final SettingsController settingsController;
     private final TaskController taskController;
     private final TimerController timerController;
 
     public MainController() {
+
+        // 1. Crear sesión inicial (anonima)
         currentSession = new Session(null, "Sesión anonima");
+
+        // 2. Crear vista principal
         view = new View(this);
+
+        // 3. Crear subcontroladores
         authController = new AuthController();
         helpController = new HelpController();
         reportController = new ReportController();
-        sessionController = new SessionController(view, curretnUserLogged);
         settingsController = new SettingsController(currentSession);
-        currentSession = new Session();
         taskController = new TaskController(currentSession);
-
         timerController = new TimerController(view, currentSession);
-        timerController.arranque();
 
+        // 4. Arrancar timer
+        timerController.arranque();
     }
 
     public void run() {
-
         view.setLocationRelativeTo(null);
         view.setVisible(true);
         configurarEventosPrincipales();
     }
 
     private void configurarEventosPrincipales() {
-        // Estos botones están definidos en View
         view.getUserBtn().addActionListener(this);
         view.getReportBtn().addActionListener(this);
         view.getSettingBtn().addActionListener(this);
-//        view.getBtnTasks().add;
         view.getHelpBtn().addActionListener(this);
+//        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        if (src == view.getBtnHelp()) {
-            mostrarAyuda();
-        }
-
-        if (src == view.getReportBtn()) {
-            abrirPanelReportes();
-        }
-
-        if (src == view.getSettingBtn()) {
-            abrirConfiguracion();
-        }
-
-        if (src == view.getUserBtn()) {
-            abrirPanelUsuario();
-        }
-
-        if (src == view.getBtnTasks()) {
-            System.out.println("XD");
-            abrirTareas();
-        }
+        if (src == view.getBtnHelp()) mostrarAyuda();
+        else if (src == view.getReportBtn()) abrirPanelReportes();
+        else if (src == view.getSettingBtn()) abrirConfiguracion();
+        else if (src == view.getBtnLogin()) abrirPanelUsuario();
+        else if (src == view.getLeftTarea()) abrirTareas();
     }
+
+    // -------------------------
+    // Métodos de navegación
+    // -------------------------
 
     private void abrirPanelUsuario() {
         authController.getLogin().setVisible(true);
     }
 
     private void abrirPanelReportes() {
-        reportController = new ReportController();
         reportController.getView().setVisible(true);
-        // new ReportController(currentSession).mostrar();
     }
 
     private void abrirConfiguracion() {
-        settingsController.getView().setVisible(true);
+        settingsController.show();
     }
 
     private void abrirTareas() {
+        taskController.getTaskPanel().setVisible(true);
+        System.out.println("uptc.edu.co.controllers.MainController.abrirTareas()");
     }
 
     private void mostrarAyuda() {
-        HelpController controller = new HelpController();
-        controller.abrirHelp();
-
+        helpController.abrirHelp();
     }
 
+    // ---------------------------------------
+    // Actualizar session cuando el usuario loguea
+    // ---------------------------------------
     public void setCurrentUser(User user) {
-        this.curretnUserLogged = user;
 
-        // Crear nueva sesión con el usuario
+        this.currentUserLogged = user;
+
+        // Crear nueva sesión
         currentSession = new Session(user, "Sesión de " + user.getName());
         currentSession.initializeSession();
 
-        // Reconectar listeners
-        timerController.setSession(currentSession);
+        // Enviar nueva session a controladores dependientes
         settingsController.setSession(currentSession);
+        timerController.setSession(currentSession);
+        taskController.setSession(currentSession);
     }
 
     public Session getCurrentSession() {
