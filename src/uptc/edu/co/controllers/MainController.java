@@ -6,9 +6,15 @@ package uptc.edu.co.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
+import uptc.edu.co.models.persistence.PersistenceManager;
 import uptc.edu.co.models.session.Session;
+import uptc.edu.co.models.session.Settings;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.view.View;
+import uptc.edu.co.view.subVistas.EmergentWindow;
 
 /**
  *
@@ -21,6 +27,7 @@ public class MainController implements ActionListener {
     private final View view;
 
     // Subcontroladores
+    private PersistenceManager persistenceManager;
     private final AuthController authController;
     private final HelpController helpController;
     private ReportController reportController;
@@ -29,15 +36,15 @@ public class MainController implements ActionListener {
     private final TimerController timerController;
 
     public MainController() {
-
+        persistenceManager = new PersistenceManager();
         // 1. Crear sesión inicial (anonima)
-        currentSession = new Session(null, "Sesión anonima");
+        currentSession = new Session();
 
         // 2. Crear vista principal
         view = new View(this);
 
         // 3. Crear subcontroladores
-        authController = new AuthController();
+        authController = new AuthController(this);
         helpController = new HelpController();
         reportController = new ReportController();
         settingsController = new SettingsController(currentSession);
@@ -59,6 +66,12 @@ public class MainController implements ActionListener {
         view.getReportBtn().addActionListener(this);
         view.getSettingBtn().addActionListener(this);
         view.getHelpBtn().addActionListener(this);
+        view.getLeftTarea().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                actionPerformed(new ActionEvent(view.getLeftTarea(), ActionEvent.ACTION_PERFORMED, "panelTarea"));
+            }
+        });
 //        
     }
 
@@ -66,19 +79,26 @@ public class MainController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        if (src == view.getBtnHelp()) mostrarAyuda();
-        else if (src == view.getReportBtn()) abrirPanelReportes();
-        else if (src == view.getSettingBtn()) abrirConfiguracion();
-        else if (src == view.getBtnLogin()) abrirPanelUsuario();
-        else if (src == view.getLeftTarea()) abrirTareas();
+        if (src == view.getBtnHelp()) {
+            mostrarAyuda();
+        } else if (src == view.getReportBtn()) {
+            abrirPanelReportes();
+        } else if (src == view.getSettingBtn()) {
+            abrirConfiguracion();
+        } else if (src == view.getBtnLogin()) {
+            abrirPanelUsuario();
+        } else if (src == view.getLeftTarea()) {
+            abrirTareas();
+        }
     }
 
     // -------------------------
     // Métodos de navegación
     // -------------------------
-
     private void abrirPanelUsuario() {
-        authController.getLogin().setVisible(true);
+        authController.abrirLogin();
+        view.setVisible(false);
+        authController.getViewMain(view);
     }
 
     private void abrirPanelReportes() {
@@ -90,7 +110,7 @@ public class MainController implements ActionListener {
     }
 
     private void abrirTareas() {
-        taskController.getTaskPanel().setVisible(true);
+        taskController.getTaskPanel().getParentFrame().setVisible(true);
         System.out.println("uptc.edu.co.controllers.MainController.abrirTareas()");
     }
 
@@ -101,21 +121,46 @@ public class MainController implements ActionListener {
     // ---------------------------------------
     // Actualizar session cuando el usuario loguea
     // ---------------------------------------
-    public void setCurrentUser(User user) {
+    public void setCurretnUserLogged(User curretnUserLogged) {
+        this.currentUserLogged = curretnUserLogged;
+        System.out.println("eee" + curretnUserLogged);
+        if (curretnUserLogged != null) {
+            this.currentSession = persistenceManager.loadSession(curretnUserLogged.getId());
+            createSession();
+            System.out.println("usuario de la clase session controller:" + curretnUserLogged);
+        } else {
+            System.out.println("session nulo ");
+        }
+        System.out.println("MainController - curreSession: " + currentSession + " hash:" + System.identityHashCode(currentSession));
+        System.out.println("MainController - loggedUser: " + curretnUserLogged + " hash:" + (curretnUserLogged != null ? System.identityHashCode(curretnUserLogged) : "null"));
 
-        this.currentUserLogged = user;
-
-        // Crear nueva sesión
-        currentSession = new Session(user, "Sesión de " + user.getName());
-        currentSession.initializeSession();
-
-        // Enviar nueva session a controladores dependientes
-        settingsController.setSession(currentSession);
-        timerController.setSession(currentSession);
-        taskController.setSession(currentSession);
     }
 
     public Session getCurrentSession() {
         return currentSession;
+    }
+
+    public void createSession() {
+        String sessionName = JOptionPane.showInputDialog(
+                view,
+                "Ingrese un nombre para la sesión:",
+                "Nueva Sesión",
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (sessionName == null || sessionName.trim().isEmpty()) {
+            new EmergentWindow("ERROR", "Debe ingresar un nombre válido.", 1);
+        }
+
+        currentSession = new Session(this.currentUserLogged, sessionName);
+
+        // Cargar configuración (por ahora la default de Settings)
+        Settings settings = currentSession.getSettings();
+
+        // Actualizar título en la vista
+        view.setTitle("Pomodoro - Sesión: " + sessionName);
+        new EmergentWindow("Sesión iniciada", "Sesión creada exitosamente.\nDuración trabajo: "
+                + settings.getWorkDuration() + " min.", 2);
+
     }
 }
