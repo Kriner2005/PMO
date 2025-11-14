@@ -106,7 +106,10 @@ public class MainController implements ActionListener {
     // -------------------------
     
     private void adminUser() {
-        AdminController controller = new AdminController(new AdminUser(), currentUserLogged);
+        AdminUser vista = new AdminUser();
+        AdminController controller = new AdminController(vista, currentUserLogged);
+        vista.setControlador(controller);
+        controller.cargarUsuarios();
         controller.getVista().setVisible(true);
     }
     private void abrirPanelUsuario() {
