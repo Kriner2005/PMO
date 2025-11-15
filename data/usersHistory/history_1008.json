@@ -1,0 +1,106 @@
+{
+  "sessionId": 1008,
+  "sessionName": "Sesión de estudio #8",
+  "loggedUser": {
+    "id": 1008,
+    "name": "Camila Rojas",
+    "email": "camila.rojas@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  "taskList": [],
+  "startTime": "2025-11-13T10:04:47.3716342",
+  "endTime": "2025-11-13T13:32:47.3716342",
+  "currentSessionsRecords": [
+    {
+      "startTime": "2025-11-13T10:04:47.3716342",
+      "endTime": "2025-11-13T10:29:47.3716342",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-13T10:29:47.3716342",
+      "endTime": "2025-11-13T10:34:47.3716342",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-11-13T10:34:47.3716342",
+      "endTime": "2025-11-13T10:59:47.3716342",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-13T10:59:47.3716342",
+      "endTime": "2025-11-13T11:04:47.3716342",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-11-13T11:04:47.3716342",
+      "endTime": "2025-11-13T11:29:47.3716342",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-13T11:29:47.3716342",
+      "endTime": "2025-11-13T11:34:47.3716342",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-11-13T11:34:47.3716342",
+      "endTime": "2025-11-13T11:59:47.3716342",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-13T11:59:47.3716342",
+      "endTime": "2025-11-13T12:14:47.3716342",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-11-13T12:14:47.3716342",
+      "endTime": "2025-11-13T12:39:47.3716342",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-13T12:39:47.3716342",
+      "endTime": "2025-11-13T12:44:47.3716342",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-11-13T12:44:47.3716342",
+      "endTime": "2025-11-13T13:09:47.3716342",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-11-13T13:09:47.3716342",
+      "endTime": "2025-11-13T13:14:47.3716342",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    }
+  ],
+  "settings": {
+    "workDuration": 25,
+    "shortBreakDuration": 5,
+    "longBreakDuration": 15
+  }
+}

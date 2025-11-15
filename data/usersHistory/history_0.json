@@ -1,0 +1,13 @@
+{
+  "sessionId": 0,
+  "taskList": [
+    "asdsadsa",
+    "x"
+  ],
+  "currentSessionsRecords": [],
+  "settings": {
+    "workDuration": 2,
+    "shortBreakDuration": 5,
+    "longBreakDuration": 15
+  }
+}

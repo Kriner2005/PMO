@@ -1,0 +1,498 @@
+{
+  "sessionId": 1004,
+  "sessionName": "Sesión de estudio #4",
+  "loggedUser": {
+    "id": 1004,
+    "name": "Laura Martínez",
+    "email": "laura.martinez@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  "taskList": [],
+  "startTime": "2025-10-30T10:04:47.3026347",
+  "endTime": "2025-10-31T03:10:47.3026347",
+  "currentSessionsRecords": [
+    {
+      "startTime": "2025-10-30T10:04:47.3026347",
+      "endTime": "2025-10-30T10:29:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T10:29:47.3026347",
+      "endTime": "2025-10-30T10:34:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T10:34:47.3026347",
+      "endTime": "2025-10-30T10:59:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T10:59:47.3026347",
+      "endTime": "2025-10-30T11:04:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T11:04:47.3026347",
+      "endTime": "2025-10-30T11:29:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T11:29:47.3026347",
+      "endTime": "2025-10-30T11:34:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T11:34:47.3026347",
+      "endTime": "2025-10-30T11:59:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T11:59:47.3026347",
+      "endTime": "2025-10-30T12:14:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T12:14:47.3026347",
+      "endTime": "2025-10-30T12:39:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T12:39:47.3026347",
+      "endTime": "2025-10-30T12:44:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T12:44:47.3026347",
+      "endTime": "2025-10-30T13:09:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T13:09:47.3026347",
+      "endTime": "2025-10-30T13:14:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T13:14:47.3026347",
+      "endTime": "2025-10-30T13:39:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T13:39:47.3026347",
+      "endTime": "2025-10-30T13:44:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T13:44:47.3026347",
+      "endTime": "2025-10-30T14:09:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T14:09:47.3026347",
+      "endTime": "2025-10-30T14:24:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T14:24:47.3026347",
+      "endTime": "2025-10-30T14:49:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T14:49:47.3026347",
+      "endTime": "2025-10-30T14:54:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T14:54:47.3026347",
+      "endTime": "2025-10-30T15:19:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T15:19:47.3026347",
+      "endTime": "2025-10-30T15:24:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T15:24:47.3026347",
+      "endTime": "2025-10-30T15:49:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T15:49:47.3026347",
+      "endTime": "2025-10-30T15:54:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T15:54:47.3026347",
+      "endTime": "2025-10-30T16:19:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T16:19:47.3026347",
+      "endTime": "2025-10-30T16:34:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T16:34:47.3026347",
+      "endTime": "2025-10-30T16:59:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T16:59:47.3026347",
+      "endTime": "2025-10-30T17:04:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T17:04:47.3026347",
+      "endTime": "2025-10-30T17:29:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T17:29:47.3026347",
+      "endTime": "2025-10-30T17:34:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T17:34:47.3026347",
+      "endTime": "2025-10-30T17:59:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T17:59:47.3026347",
+      "endTime": "2025-10-30T18:04:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T18:04:47.3026347",
+      "endTime": "2025-10-30T18:29:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T18:29:47.3026347",
+      "endTime": "2025-10-30T18:44:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T18:44:47.3026347",
+      "endTime": "2025-10-30T19:09:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T19:09:47.3026347",
+      "endTime": "2025-10-30T19:14:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T19:14:47.3026347",
+      "endTime": "2025-10-30T19:39:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T19:39:47.3026347",
+      "endTime": "2025-10-30T19:44:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T19:44:47.3026347",
+      "endTime": "2025-10-30T20:09:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T20:09:47.3026347",
+      "endTime": "2025-10-30T20:14:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T20:14:47.3026347",
+      "endTime": "2025-10-30T20:39:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T20:39:47.3026347",
+      "endTime": "2025-10-30T20:54:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T20:54:47.3026347",
+      "endTime": "2025-10-30T21:19:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T21:19:47.3026347",
+      "endTime": "2025-10-30T21:24:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T21:24:47.3026347",
+      "endTime": "2025-10-30T21:49:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T21:49:47.3026347",
+      "endTime": "2025-10-30T21:54:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T21:54:47.3026347",
+      "endTime": "2025-10-30T22:19:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T22:19:47.3026347",
+      "endTime": "2025-10-30T22:24:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T22:24:47.3026347",
+      "endTime": "2025-10-30T22:49:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T22:49:47.3026347",
+      "endTime": "2025-10-30T23:04:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T23:04:47.3026347",
+      "endTime": "2025-10-30T23:29:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T23:29:47.3026347",
+      "endTime": "2025-10-30T23:34:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-30T23:34:47.3026347",
+      "endTime": "2025-10-30T23:59:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-30T23:59:47.3026347",
+      "endTime": "2025-10-31T00:04:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T00:04:47.3026347",
+      "endTime": "2025-10-31T00:29:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T00:29:47.3026347",
+      "endTime": "2025-10-31T00:34:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T00:34:47.3026347",
+      "endTime": "2025-10-31T00:59:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T00:59:47.3026347",
+      "endTime": "2025-10-31T01:14:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T01:14:47.3026347",
+      "endTime": "2025-10-31T01:39:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T01:39:47.3026347",
+      "endTime": "2025-10-31T01:44:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T01:44:47.3026347",
+      "endTime": "2025-10-31T02:09:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T02:09:47.3026347",
+      "endTime": "2025-10-31T02:14:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T02:14:47.3026347",
+      "endTime": "2025-10-31T02:39:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T02:39:47.3026347",
+      "endTime": "2025-10-31T02:44:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T02:44:47.3026347",
+      "endTime": "2025-10-31T03:09:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T03:09:47.3026347",
+      "endTime": "2025-10-31T03:24:47.3026347",
+      "plannedDuration": 900,
+      "completed": true,
+      "type": "LONG_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T03:24:47.3026347",
+      "endTime": "2025-10-31T03:49:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T03:49:47.3026347",
+      "endTime": "2025-10-31T03:54:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-31T03:54:47.3026347",
+      "endTime": "2025-10-31T04:19:47.3026347",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-31T04:19:47.3026347",
+      "endTime": "2025-10-31T04:24:47.3026347",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    }
+  ],
+  "settings": {
+    "workDuration": 25,
+    "shortBreakDuration": 5,
+    "longBreakDuration": 15
+  }
+}

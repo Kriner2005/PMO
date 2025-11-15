@@ -618,12 +618,13 @@ public class View extends javax.swing.JFrame {
         // Configurar el label del tiempo
         jLabelTiempo.setFont(new Font("Source San Pro", Font.BOLD, 90));
         jLabelTiempo.setForeground(Color.WHITE);
-//        jLabelTiempo.setText("25:00");
+        
         jLabelTiempo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         // Configurar la barra de progreso
         jProgressBar.setMinimum(0);
         jProgressBar.setMaximum(100);
+        
         jProgressBar.setValue(0);
         jProgressBar.setStringPainted(true); // Muestra el porcentaje
         jProgressBar.setForeground(new Color(139, 0, 0)); // Color de la barra (rojo oscuro)

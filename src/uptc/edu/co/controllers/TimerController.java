@@ -178,6 +178,20 @@ public class TimerController implements SettingsListener {
     private void accionReset() {
         timerActual.stop();
         timerActual.reset();
+
+        // Recalcular tiempoTotal según el modo actual
+        switch (tipoActual) {
+            case POMODORO:
+                tiempoTotal = session.getSettings().getWorkDurationInSeconds();
+                break;
+            case SHORT_BREAK:
+                tiempoTotal = session.getSettings().getShortBreakDurationInSeconds();
+                break;
+            case LONG_BREAK:
+                tiempoTotal = session.getSettings().getLongBreakDurationInSeconds();
+                break;
+        }
+
         actualizarTiempoEnVista(tiempoTotal);
         view.updateProgressBar(0);
         cambiarIconoStart(false);

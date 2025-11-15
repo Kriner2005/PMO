@@ -1,0 +1,50 @@
+{
+  "sessionId": 1006,
+  "sessionName": "Sesión de estudio #8",
+  "loggedUser": {
+    "id": 1006,
+    "name": "Sofía Ramírez",
+    "email": "sofia.ramirez@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  "taskList": [],
+  "startTime": "2025-10-22T10:04:47.3436348",
+  "endTime": "2025-10-22T11:35:47.3436348",
+  "currentSessionsRecords": [
+    {
+      "startTime": "2025-10-22T10:04:47.3436348",
+      "endTime": "2025-10-22T10:29:47.3436348",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-22T10:29:47.3436348",
+      "endTime": "2025-10-22T10:34:47.3436348",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    },
+    {
+      "startTime": "2025-10-22T10:34:47.3436348",
+      "endTime": "2025-10-22T10:59:47.3436348",
+      "plannedDuration": 1500,
+      "completed": true,
+      "type": "WORK"
+    },
+    {
+      "startTime": "2025-10-22T10:59:47.3436348",
+      "endTime": "2025-10-22T11:04:47.3436348",
+      "plannedDuration": 300,
+      "completed": true,
+      "type": "SHORT_BREAK"
+    }
+  ],
+  "settings": {
+    "workDuration": 25,
+    "shortBreakDuration": 5,
+    "longBreakDuration": 15
+  }
+}

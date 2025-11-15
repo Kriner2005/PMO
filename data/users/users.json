@@ -22,5 +22,93 @@
     "password": "1234zZ@",
     "rol": "USER",
     "banned": false
+  },
+  {
+    "id": 1000,
+    "name": "Ana García",
+    "email": "ana.garcia@test.com",
+    "password": "Test123!",
+    "rol": "ADMIN",
+    "banned": false
+  },
+  {
+    "id": 1001,
+    "name": "Carlos Ruiz",
+    "email": "carlos.ruiz@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1002,
+    "name": "María López",
+    "email": "maria.lopez@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1003,
+    "name": "Juan Pérez",
+    "email": "juan.perez@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1004,
+    "name": "Laura Martínez",
+    "email": "laura.martinez@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1005,
+    "name": "Diego Torres",
+    "email": "diego.torres@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1006,
+    "name": "Sofía Ramírez",
+    "email": "sofia.ramirez@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1007,
+    "name": "Pablo Vargas",
+    "email": "pablo.vargas@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1008,
+    "name": "Camila Rojas",
+    "email": "camila.rojas@test.com",
+    "password": "Test123!",
+    "rol": "USER",
+    "banned": false
+  },
+  {
+    "id": 1009,
+    "name": "Andrés Silva",
+    "email": "andres.silva@test.com",
+    "password": "Test123!",
+    "rol": "ADMIN",
+    "banned": false
+  },
+  {
+    "id": 14,
+    "name": "steven",
+    "email": "steven@gmail.com",
+    "password": "Steven123@",
+    "rol": "ADMIN",
+    "banned": false
   }
 ]
