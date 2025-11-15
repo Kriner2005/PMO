@@ -6,7 +6,12 @@ import uptc.edu.co.models.timer.Timer;
 import uptc.edu.co.models.session.TimerListener;
 
 import java.awt.Color;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
+import uptc.edu.co.models.persistence.PersistenceManager;
+import uptc.edu.co.models.session.PomodoroRecord;
+import uptc.edu.co.models.session.PomodoroType;
 
 import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.Settings;
@@ -24,6 +29,9 @@ public class TimerController implements SettingsListener {
     private PomodoroTimer pomodoroTimer;
     private PomodoroTimer shortBreakTimer;
     private PomodoroTimer longBreakTimer;
+
+    private PomodoroRecord currentRecord;
+    private LocalDateTime recordStartTime;
 
     private enum TipoTimer {
         POMODORO, SHORT_BREAK, LONG_BREAK
@@ -50,6 +58,9 @@ public class TimerController implements SettingsListener {
 
         timerActual = pomodoroTimer;
         tipoActual = TipoTimer.POMODORO;
+
+        this.currentRecord = null;
+        this.recordStartTime = null;
     }
 
     // ============================================
@@ -59,6 +70,7 @@ public class TimerController implements SettingsListener {
     public void onSettingsChanged(Settings newSettings) {
 
         if (timerActual != null && timerActual.isRunning()) {
+            finalizarRecordActual(false);
             timerActual.stop();
         }
 
@@ -167,9 +179,62 @@ public class TimerController implements SettingsListener {
             cambiarIconoStart(true);
 
         } else {
+            iniciarNuevoRecord();
             timerActual.start();
             cambiarIconoStart(true);
         }
+    }
+
+    private void iniciarNuevoRecord() {
+        recordStartTime = LocalDateTime.now();
+
+        // Determinar el tipo de pomodoro
+        PomodoroType tipo = switch (tipoActual) {
+            case POMODORO ->
+                PomodoroType.WORK;
+            case SHORT_BREAK ->
+                PomodoroType.SHORT_BREAK;
+            case LONG_BREAK ->
+                PomodoroType.LONG_BREAK;
+        };
+
+        // Crear el record (aún sin endTime)
+        currentRecord = new PomodoroRecord(
+                tipo,
+                recordStartTime,
+                null, // Se llenará al terminar
+                false, // Aún no completado
+                tiempoTotal
+        );
+
+        System.out.println("✅ Nuevo PomodoroRecord iniciado: " + tipo + " a las " + recordStartTime);
+    }
+
+    private void finalizarRecordActual(boolean completado) {
+        if (currentRecord == null) {
+            return; // No hay record para finalizar
+        }
+
+        LocalDateTime endTime = LocalDateTime.now();
+        currentRecord.setEndTime(endTime);
+        currentRecord.setCompleted(completado);
+
+        // Agregar a la sesión
+        session.addPomodoroRecord(currentRecord);
+
+        // Guardar en persistencia
+        if (session.getLoggedUser() != null) {
+            PersistenceManager pm = new PersistenceManager();
+            pm.saveSession(session.getLoggedUser().getId(), session);
+
+            System.out.println("💾 PomodoroRecord guardado: " + currentRecord.getType()
+                    + " | Completado: " + completado
+                    + " | Duración: " + currentRecord.getPlannedDuration() + "s");
+        }
+
+        // Limpiar referencias
+        currentRecord = null;
+        recordStartTime = null;
     }
 
     // ============================================
@@ -241,6 +306,7 @@ public class TimerController implements SettingsListener {
 
     private void detenerTimerActual() {
         if (timerActual != null && timerActual.isRunning()) {
+            finalizarRecordActual(false);
             timerActual.stop();
         }
     }
@@ -273,7 +339,9 @@ public class TimerController implements SettingsListener {
     private void manejarFinalizacion() {
 
         SwingUtilities.invokeLater(() -> {
-
+            
+            finalizarRecordActual(true);
+            
             JOptionPane.showMessageDialog(view,
                     obtenerMensajeFinalizacion(),
                     "Timer completado",

@@ -39,7 +39,7 @@ public class MainController implements ActionListener {
     private final TimerController timerController;
     private AdminController adminController = null;
 
-    public MainController() throws IOException {
+    public MainController() {
         persistenceManager = new PersistenceManager();
         // 1. Crear sesión inicial (anonima)
         currentSession = new Session();
