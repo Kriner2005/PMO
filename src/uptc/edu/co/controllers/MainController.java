@@ -8,10 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import uptc.edu.co.models.persistence.PersistenceManager;
 import uptc.edu.co.models.session.Session;
 import uptc.edu.co.models.session.Settings;
+import uptc.edu.co.models.user.Role;
 import uptc.edu.co.models.user.User;
 import uptc.edu.co.view.View;
 import uptc.edu.co.view.subVistas.AdminUser;
@@ -37,7 +39,7 @@ public class MainController implements ActionListener {
     private final TimerController timerController;
     private AdminController adminController = null;
 
-    public MainController() {
+    public MainController() throws IOException {
         persistenceManager = new PersistenceManager();
         // 1. Crear sesión inicial (anonima)
         currentSession = new Session();
@@ -49,14 +51,15 @@ public class MainController implements ActionListener {
         authController = new AuthController(this);
         helpController = new HelpController();
         reportController = new ReportController();
-        settingsController = new SettingsController(currentSession,this);
+        settingsController = new SettingsController(currentSession, this);
         taskController = new TaskController(currentSession);
         timerController = new TimerController(view, currentSession);
         if (currentUserLogged == null) {
             view.getAdminBtn().setVisible(false);
-        }else{
+        } else {
             view.getAdminBtn().setVisible(true);
         }
+        
         // 4. Arrancar timer
         timerController.arranque();
     }
@@ -104,7 +107,6 @@ public class MainController implements ActionListener {
     // -------------------------
     // Métodos de navegación
     // -------------------------
-    
     private void adminUser() {
         AdminUser vista = new AdminUser();
         AdminController controller = new AdminController(vista, currentUserLogged);
@@ -112,6 +114,7 @@ public class MainController implements ActionListener {
         controller.cargarUsuarios();
         controller.getVista().setVisible(true);
     }
+
     private void abrirPanelUsuario() {
         authController.abrirLogin();
         view.setVisible(false);
@@ -190,6 +193,5 @@ public class MainController implements ActionListener {
     public User getCurrentUserLogged() {
         return currentUserLogged;
     }
-    
-    
+
 }

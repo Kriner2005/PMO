@@ -117,7 +117,7 @@ public class TaskPanel extends JPanel {
         contentPanel.setBounds(0, 0, 500, 550);
         layeredPane.add(contentPanel, JLayeredPane.DEFAULT_LAYER);
 
-        ImageIcon nut = new ImageIcon("src/resources/herramienta.png");
+        ImageIcon nut = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/laterales/herramienta.png"));
 
         JLabel nutTL = new JLabel(nut);
         JLabel nutTR = new JLabel(nut);

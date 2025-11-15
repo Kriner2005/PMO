@@ -32,7 +32,43 @@ public class PersistenceManager {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .setPrettyPrinting()
             .create();
+    
+    public PersistenceManager() {
+        ensureDirectoriesExist();
+    }
 
+    private void ensureDirectoriesExist() {
+        try {
+            // Crear carpeta data/users si no existe
+            File usersDir = new File("data/users");
+            if (!usersDir.exists()) {
+                usersDir.mkdirs();
+                System.out.println("✅ Carpeta creada: " + usersDir.getAbsolutePath());
+            }
+            
+            // Crear carpeta data/usersHistory si no existe
+            File historiesDir = new File("data/usersHistory");
+            if (!historiesDir.exists()) {
+                historiesDir.mkdirs();
+                System.out.println("✅ Carpeta creada: " + historiesDir.getAbsolutePath());
+            }
+            
+            // Crear archivo users.json vacío si no existe
+            File usersFile = new File(Utilities.USERS_FILE);
+            if (!usersFile.exists()) {
+                usersFile.getParentFile().mkdirs();
+                try (FileWriter writer = new FileWriter(usersFile)) {
+                    writer.write("[]"); // Array vacío
+                }
+                System.out.println("✅ Archivo creado: " + usersFile.getAbsolutePath());
+            }
+            
+        } catch (IOException e) {
+            System.err.println("❌ Error al crear estructura de carpetas: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
     // ------------------ USER ------------------
     public List<User> loadUsers() {
         try (FileReader reader = new FileReader(Utilities.USERS_FILE)) {

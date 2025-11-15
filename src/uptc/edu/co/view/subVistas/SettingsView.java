@@ -359,35 +359,32 @@ public class SettingsView extends JFrame {
     }
 
     private void loadIconsSidebar() {
+    // ✅ Cargar desde classpath
+    ImageIcon logo = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/image.png"));
+    ImageIcon home = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/house.png"));
+    ImageIcon stats = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/statistics.png"));
+    ImageIcon config = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/configuration.png"));
 
-        File file1 = new File("src/uptc/edu/co/resources/images/paulas/image.png");
-        ImageIcon logo = new ImageIcon(file1.getAbsolutePath());
-
-        File file2 = new File("src/uptc/edu/co/resources/images/paulas/house.png");
-        ImageIcon home = new ImageIcon(file2.getAbsolutePath());
-
-        File file3 = new File("src/uptc/edu/co/resources/images/paulas/statistics.png");
-        ImageIcon stats = new ImageIcon(file3.getAbsolutePath());
-
-        File file4 = new File("src/uptc/edu/co/resources/images/paulas/configuration.png");
-        ImageIcon config = new ImageIcon(file4.getAbsolutePath());
-
-        sidebar.add(createSidebarLogo(logo));
-        JButton homeBtn = createSidebarButton(home);
-        homeBtn.setActionCommand("HOME_BUTTON_SETTINGS");
-        homeBtn.addActionListener(listener);
-        sidebar.add(homeBtn);
-        JButton statsBtn = createSidebarButton(stats);
-        statsBtn.setActionCommand("STATISTICS_BUTTON_SETTINGS");
-        statsBtn.addActionListener(listener);
-        sidebar.add(statsBtn);
-        configBtn = createSidebarButton(config);
-        configBtn.setActionCommand("CONFIGURATION_BUTTON_SETTINGS");
-        configBtn.addActionListener(listener);
-        selectedButton = configBtn;
-        sidebar.add(configBtn);
-        add(sidebar, BorderLayout.WEST);
-    }
+    sidebar.add(createSidebarLogo(logo));
+    
+    JButton homeBtn = createSidebarButton(home);
+    homeBtn.setActionCommand("HOME_BUTTON_SETTINGS");
+    homeBtn.addActionListener(listener);
+    sidebar.add(homeBtn);
+    
+    JButton statsBtn = createSidebarButton(stats);
+    statsBtn.setActionCommand("STATISTICS_BUTTON_SETTINGS");
+    statsBtn.addActionListener(listener);
+    sidebar.add(statsBtn);
+    
+    configBtn = createSidebarButton(config);
+    configBtn.setActionCommand("CONFIGURATION_BUTTON_SETTINGS");
+    configBtn.addActionListener(listener);
+    selectedButton = configBtn;
+    sidebar.add(configBtn);
+    
+    add(sidebar, BorderLayout.WEST);
+}
 
     public String getPomodoroField() {
         return pomodoroField.getText();

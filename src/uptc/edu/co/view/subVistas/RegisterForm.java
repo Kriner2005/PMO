@@ -39,8 +39,7 @@ public class RegisterForm extends JDialog {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.CENTER;
 
-        File file = new File("src/uptc/edu/co/resources/images/paulas/image.png");
-        ImageIcon icono = new ImageIcon(file.getAbsolutePath());
+        ImageIcon icono = new ImageIcon(getClass().getResource("/uptc/edu/co/resources/images/paulas/image.png"));
 
         labelImagen = new JLabel(icono);
         gbc.gridx = 0;
